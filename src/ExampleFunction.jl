@@ -6,3 +6,11 @@ end
 function greet()
     println("You are using the Kuramodel Package, have fun!")
 end
+
+using Distributions
+"""
+Function to generate array of random phases between -π and π
+"""
+function randθ(N)
+    return rand(Uniform(-π, π),N)
+end
