@@ -1,7 +1,9 @@
 module Kuramodel
 
-# Write your package code here.
+# export functions
 export greet_Kuramodel
-include("ExampleFunction.jl")
+export greet
 
+# where are these functions from?
+include("ExampleFunction.jl")
 end
