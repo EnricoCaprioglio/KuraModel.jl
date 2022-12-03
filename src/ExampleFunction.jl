@@ -1,4 +1,4 @@
-# Example Function
+# Example Functions (these were created to test the package was correclty loaded)
 function greet_Kuramodel()
     println("Hello Kuramodel user!")
 end
@@ -8,6 +8,7 @@ function greet()
 end
 
 using Distributions
+using Random
 
 # Function to generate array of random phases between -π and π
 function randθ(N::Number)
