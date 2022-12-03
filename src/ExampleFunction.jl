@@ -8,9 +8,8 @@ function greet()
 end
 
 using Distributions
-"""
-Function to generate array of random phases between -π and π
-"""
-function randθ(N)
+
+# Function to generate array of random phases between -π and π
+function randθ(N::Number)
     return rand(Uniform(-π, π),N)
 end
