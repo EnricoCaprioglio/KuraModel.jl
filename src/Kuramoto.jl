@@ -1,4 +1,5 @@
 using Distributions
+using Random
 
 """
 Kura_step(σ::AbstractArray,ω::AbstractArray,A::Matrix,dt::Number;
@@ -97,15 +98,27 @@ Function to execute a Kuramoto simulation.
     Output:
         θs::AbstractArray   updated phases at each timestep (tot number of steps=t_tot/Δt)
 
-## Example:
+## Example of Kuramoto simulation
 ```jldoctest
-julia> Kura_step(
-    [1,1],
-    [1,1],
-    [0 1; 1 0],
-    0.02,
-    θ=[2,0.5]
-)
+julia> seedvalue=4; Random.seed!(seedvalue); N=2;
+t=10; Δt=0.02; # time-steps
+steps=collect(0:Δt:t-Δt) # total number of steps calculated
+ω=rand(-2:0.0000001:2,N); # intrinsic frequencies
+σ=[1,1]; # couplings
+A=[0 1;1 0]; # initialize network
+θs=Kuramodel.Kurasim(σ,ω,A,t,Δt,θ0=nothing,noise_scale=0.0,τ=nothing,seedval=nothing)
+
+50×2 Matrix{Float64}:
+ -1.89658  -0.200719
+ -1.97067  -0.400048
+ -2.0432   -0.600938
+ -2.11738  -0.800179
+  ⋮        
+ -7.71061  -6.96407
+ -7.84732  -7.10078
+ -7.98403  -7.23749
+ -8.12074  -7.3742
+ ```
 """
 function Kurasim(σ::AbstractArray,ω::AbstractArray,A::Matrix,t_tot::Integer,Δt::Number;
 	θ0=nothing::AbstractArray,noise_scale=nothing,seedval=nothing,τ=nothing)
