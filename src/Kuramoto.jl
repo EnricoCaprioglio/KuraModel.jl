@@ -80,6 +80,7 @@ end
 
 """
     Kurasim(σ::AbstractArray,ω::AbstractArray,A::Matrix,t_tot::Integer,Δt::Number;
+	θ0=nothing::AbstractArray,noise_scale=nothing,seedval=nothing,τ=nothing)
         θ0=nothing::AbstractArray,τ=nothing,noise_scale=nothing,seedval=nothing)
 
 Function to execute a Kuramoto simulation.
@@ -153,7 +154,7 @@ function Kurasim(σ::AbstractArray,ω::AbstractArray,A::Matrix,t_tot::Integer,Δ
 	θs[1,:]=θ0
 	for t in 2:tot_steps
 		# update phases
-		θs[t,:]=Kura_step(σ,ω,A,Δt;θ=θs[t-1,:],noise_scale,seedval,τ)
+		θs[t,:]=Kura_step(σ,ω,A,Δt;θ=θs[t-1,:],τ=τ,noise_scale=noise_scale,seedval=seedval)
 	end
     println("Simulation completed, total steps: $(tot_steps)")
 	return θs

@@ -10,7 +10,9 @@ end
 using Distributions
 using Random
 
-# Function to generate array of random phases between -π and π
+"""
+Simple function to generate array of random phases between -π and π.
+"""
 function randθ(N::Number)
     return rand(Uniform(-π, π),N)
 end
