@@ -126,7 +126,7 @@ function Kurasim(σ::AbstractArray,ω::AbstractArray,A::Matrix,t_tot::Integer,Δ
 	if size(A) ≢ (N,N)
 		error("Dimension mismatch with adj matrix")
 	end
-	if length(θ) ≢ N
+	if length(θ0) ≢ N
 		error("Dimension mismatch with phases array")
 	end
 	if length(σ) ≢ N
@@ -142,5 +142,6 @@ function Kurasim(σ::AbstractArray,ω::AbstractArray,A::Matrix,t_tot::Integer,Δ
 		# update phases
 		θs[t,:]=Kura_step(σ,ω,A,Δt;θ=θs[t-1,:],noise_scale,seedval,τ)
 	end
+    println("Simulation completed, total steps: $(tot_steps)")
 	return θs
 end
