@@ -1,7 +1,7 @@
 using Distributions
 
 """
-    Kuramoto_step(σ::AbstractArray,ω::AbstractArray,A::Matrix,dt::Number;
+Kura_step(σ::AbstractArray,ω::AbstractArray,A::Matrix,dt::Number;
         θ=nothing::AbstractArray,noise_scale=nothing,seedval=nothing,τ=nothing)
 
 Simple Euler's method to compute the step evolution of N Kuramoto oscillators.
@@ -18,7 +18,7 @@ Simple Euler's method to compute the step evolution of N Kuramoto oscillators.
 
 ## Example:
 ```jldoctest
-julia> Kuramoto_step(
+julia> Kura_step(
         [1,1],
         [1,1],
         [0 1; 1 0],
@@ -31,7 +31,7 @@ julia> Kuramoto_step(
 ```
 
 """
-function Kuramoto_step(σ::AbstractArray,ω::AbstractArray,A::Matrix,Δt::Number;
+function Kura_step(σ::AbstractArray,ω::AbstractArray,A::Matrix,Δt::Number;
 	θ=nothing::AbstractArray,τ=nothing,noise_scale=nothing,seedval=nothing)
 	# number of nodes N
 	N=length(ω)
@@ -70,6 +70,9 @@ function Kuramoto_step(σ::AbstractArray,ω::AbstractArray,A::Matrix,Δt::Number
 	θ += Δt.*(ω + k1) + noise_scale*(rand(Normal(0,1),N))*sqrt(Δt)		
 	return θ
 end
+
+# Probably no need to include the seedvalue in the step function as well, since it is
+# already in the Kura_sim function
 
 """
 
