@@ -2,7 +2,7 @@ using Distributions
 using Random
 
 """
-Kura_step(σ::AbstractArray,ω::AbstractArray,A::Matrix,dt::Number;
+	Kura_step(σ::AbstractArray,ω::AbstractArray,A::Matrix,dt::Number;
         θ=nothing::AbstractArray,noise_scale=nothing,seedval=nothing,τ=nothing)
 
 Simple Euler's method to compute the step evolution of N Kuramoto oscillators.
@@ -107,17 +107,8 @@ steps=collect(0:Δt:t-Δt)
 ω=rand(-2:0.0000001:2,N);
 σ=[1,1];
 A=[0 1;1 0];
-θs=Kuramodel.Kurasim(σ,ω,A,t,Δt,θ0=nothing,noise_scale=0.0,τ=nothing,seedval=nothing)
-50×2 Matrix{Float64}:
- -1.89658  -0.200719
- -1.97067  -0.400048
- -2.0432   -0.600938
- -2.11738  -0.800179
-  ⋮        
- -7.71061  -6.96407
- -7.84732  -7.10078
- -7.98403  -7.23749
- -8.12074  -7.3742
+θs=Kuramodel.Kurasim(σ,ω,A,t,Δt)
+50×2 Matrix{Float64}
  ```
 """
 function Kurasim(σ::AbstractArray,ω::AbstractArray,A::Matrix,t_tot::Integer,Δt::Number;
