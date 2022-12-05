@@ -108,7 +108,6 @@ steps=collect(0:Δt:t-Δt) # total number of steps calculated
 σ=[1,1]; # couplings
 A=[0 1;1 0]; # initialize network
 θs=Kuramodel.Kurasim(σ,ω,A,t,Δt,θ0=nothing,noise_scale=0.0,τ=nothing,seedval=nothing)
-
 50×2 Matrix{Float64}:
  -1.89658  -0.200719
  -1.97067  -0.400048
