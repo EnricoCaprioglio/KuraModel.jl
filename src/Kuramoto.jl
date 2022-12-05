@@ -36,7 +36,7 @@ julia> Kura_step(
 
 """
 function Kura_step(σ::AbstractArray,ω::AbstractArray,A::Matrix,Δt::Number;
-	θ=nothing::AbstractArray,τ=nothing,noise_scale=nothing,seedval=nothing)
+	θ=nothing,τ=nothing,noise_scale=nothing,seedval=nothing)
 	# number of nodes N
 	N=length(ω)
 	
@@ -108,11 +108,20 @@ steps=collect(0:Δt:t-Δt)
 σ=[1,1];
 A=[0 1;1 0];
 θs=Kuramodel.Kurasim(σ,ω,A,t,Δt)
-50×2 Matrix{Float64}
+50×2 Matrix{Float64}:
+ 2.92102  -2.72598
+ 3.05651  -2.62996
+ 3.18557  -2.5275
+ 3.31018  -2.42059
+ ⋮        
+ 8.30488   2.54005
+ 8.42064   2.65581
+ 8.5364    2.77157
+ 8.65216   2.88733
 ```
 """
 function Kurasim(σ::AbstractArray,ω::AbstractArray,A::Matrix,t_tot::Integer,Δt::Number;
-	θ0=nothing::AbstractArray,noise_scale=nothing,seedval=nothing,τ=nothing)
+	θ0=nothing,noise_scale=nothing,seedval=nothing,τ=nothing)
 	# number of nodes N
 	N=length(ω)
 	# set optional arguments
