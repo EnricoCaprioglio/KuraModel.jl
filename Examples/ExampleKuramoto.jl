@@ -22,5 +22,5 @@ steps=collect(0:Δt:t-Δt) # total number of steps calculated
 # initialize network
 A=[0 1;1 0];
 # start simulation
-θs=Kuramodel.Kurasim(σ,ω,A,t,Δt)
+θs=Kuramodel.Kurasim(σ,ω,A,t,Δt,seedval=seedvalue)
 θs
