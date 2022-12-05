@@ -1,7 +1,6 @@
 module Kuramodel
 
 # export functions
-export greet_Kuramodel
 export greet
 export randθ
 export Kura_step
