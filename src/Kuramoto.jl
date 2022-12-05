@@ -102,11 +102,16 @@ Function to execute a Kuramoto simulation.
 ## Example of Kuramoto simulation
 ```jldoctest
 julia> seedvalue=4; Random.seed!(seedvalue); N=2;
-t=10; Δt=0.02;
-steps=collect(0:Δt:t-Δt)
+# time-steps
+t=10; Δt=0.2;
+steps=collect(0:Δt:t-Δt) # total number of steps calculated
+# initialize natural frequencies
 ω=rand(-2:0.0000001:2,N);
+# couplings
 σ=[1,1];
+# initialize network
 A=[0 1;1 0];
+# start simulation
 θs=Kuramodel.Kurasim(σ,ω,A,t,Δt)
 50×2 Matrix{Float64}:
   1.11332   0.0218031
