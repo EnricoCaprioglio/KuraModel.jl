@@ -109,7 +109,7 @@ steps=collect(0:Δt:t-Δt)
 A=[0 1;1 0];
 θs=Kuramodel.Kurasim(σ,ω,A,t,Δt)
 50×2 Matrix{Float64}
- ```
+```
 """
 function Kurasim(σ::AbstractArray,ω::AbstractArray,A::Matrix,t_tot::Integer,Δt::Number;
 	θ0=nothing::AbstractArray,noise_scale=nothing,seedval=nothing,τ=nothing)
