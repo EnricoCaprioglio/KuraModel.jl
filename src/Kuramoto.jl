@@ -79,9 +79,8 @@ end
 # already in the Kurasim function
 
 """
-    Kurasim(σ::AbstractArray,ω::AbstractArray,A::Matrix,t_tot::Integer,Δt::Number;
-	θ0=nothing::AbstractArray,noise_scale=nothing,seedval=nothing,τ=nothing)
-        θ0=nothing::AbstractArray,τ=nothing,noise_scale=nothing,seedval=nothing)
+	function Kurasim(σ::AbstractArray,ω::AbstractArray,A::Matrix,t_tot::Integer,Δt::Number;
+		θ0=nothing,noise_scale=nothing,seedval=nothing,τ=nothing)
 
 Function to execute a Kuramoto simulation.
 
