@@ -75,8 +75,11 @@ function Kura_step(σ::AbstractArray,ω::AbstractArray,A::Matrix,Δt::Number;
 	return θ
 end
 
-# Probably no need to include the seedvalue in the step function as well, since it is
+## TODO
+#1 Probably no need to include the seedvalue in the step function as well, since it is
 # already in the Kurasim function
+#2 check if there is a better way to add options to functions, this is okay for now
+#3 
 
 """
 	function Kurasim(σ::AbstractArray,ω::AbstractArray,A::Matrix,t_tot::Integer,Δt::Number;
@@ -161,4 +164,25 @@ function Kurasim(σ::AbstractArray,ω::AbstractArray,A::Matrix,t_tot::Integer,Δ
 	end
     println("Simulation completed, total steps: $(tot_steps)")
 	return θs
+end
+
+"""
+	macro_op(θs::Matrix)
+
+Function to calculate the instantaneous macroscopic parameter for each row
+of the instantaneous phases stored in θs.
+
+	Input:
+		θs::Matrix			(tot_num_timesteps × N) matrix, each row
+							contains the instantaneous phases of all
+							N oscillators.
+	Output:
+		R::AbstractArray	Instantaneous oreder parameter for each 
+							timestep.
+
+"""
+function macro_op(θs::Matrix)
+	# num of cols = N
+	N=length(θs[1,:])
+    map(θ -> abs(sum(exp.(im*θ)/N)), eachrow(θs))
 end
