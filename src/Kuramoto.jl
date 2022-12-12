@@ -2,7 +2,7 @@ using Distributions
 using Random
 
 """
-	Kura_step(σ::AbstractArray,ω::AbstractArray,A::Matrix,dt::Number;
+	Kura_step(σ::AbstractArray,ω::AbstractArray,A::AbstractMatrix,dt::Number;
         θ=nothing::AbstractArray,noise_scale=nothing,seedval=nothing,τ=nothing)
 
 Simple Euler's method to compute the step evolution of N Kuramoto oscillators.
@@ -10,7 +10,7 @@ Simple Euler's method to compute the step evolution of N Kuramoto oscillators.
     Inputs:
         σ::AbstractArray    array of couplings
         ω::AbstractArray    array of natural frequencies
-        A::Matrix           adjacency matrix of the underlying network
+        A::AbstractMatrix   adjacency matrix of the underlying network
         Δt::Number          time-step for Euler's method
     Optional Inputs:
         θ::AbstractArray    instantaneous phases
@@ -35,7 +35,7 @@ julia> Kura_step(
 ```
 
 """
-function Kura_step(σ::AbstractArray,ω::AbstractArray,A::Matrix,Δt::Number;
+function Kura_step(σ::AbstractArray,ω::AbstractArray,A::AbstractMatrix,Δt::Number;
 	θ=nothing,τ=nothing,noise_scale=nothing,seedval=nothing)
 	# number of nodes N
 	N=length(ω)
@@ -82,7 +82,7 @@ end
 #3 
 
 """
-	function Kurasim(σ::AbstractArray,ω::AbstractArray,A::Matrix,t_tot::Integer,Δt::Number;
+	function Kurasim(σ::AbstractArray,ω::AbstractArray,A::AbstractMatrix,t_tot::Integer,Δt::Number;
 		θ0=nothing,noise_scale=nothing,seedval=nothing,τ=nothing)
 
 Function to execute a Kuramoto simulation.
@@ -90,7 +90,7 @@ Function to execute a Kuramoto simulation.
     Inputs:
         σ::AbstractArray    array of couplings
         ω::AbstractArray    array of natural frequencies
-        A::Matrix           adjacency matrix of the underlying network
+        A::AbstractMatrix   adjacency matrix of the underlying network
         t_tot::Integer      total time for the simulation
         Δt::Number          time-step for Euler's method
     Optional Inputs:
@@ -127,7 +127,7 @@ A=[0 1;1 0];
  15.9247   16.0825
 ```
 """
-function Kurasim(σ::AbstractArray,ω::AbstractArray,A::Matrix,t_tot::Integer,Δt::Number;
+function Kurasim(σ::AbstractArray,ω::AbstractArray,A::AbstractMatrix,t_tot::Integer,Δt::Number;
 	θ0=nothing,noise_scale=nothing,seedval=nothing,τ=nothing)
 	# number of nodes N
 	N=length(ω)
@@ -167,13 +167,13 @@ function Kurasim(σ::AbstractArray,ω::AbstractArray,A::Matrix,t_tot::Integer,Δ
 end
 
 """
-	macro_op(θs::Matrix)
+	macro_op(θs::AbstractMatrix)
 
 Function to calculate the instantaneous macroscopic parameter for each row
 of the instantaneous phases stored in θs.
 
 	Input:
-		θs::Matrix			(tot_num_timesteps × N) matrix, each row
+		θs::AbstractMatrix	(tot_num_timesteps × N) matrix, each row
 							contains the instantaneous phases of all
 							N oscillators.
 	Output:
@@ -181,7 +181,7 @@ of the instantaneous phases stored in θs.
 							timestep.
 
 """
-function macro_op(θs::Matrix)
+function macro_op(θs::AbstractMatrix)
 	# num of cols = N
 	N=length(θs[1,:])
     map(θ -> abs(sum(exp.(im*θ)/N)), eachrow(θs))
