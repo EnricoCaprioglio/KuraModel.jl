@@ -72,9 +72,9 @@ This function finds the local mean phase for each community at each time step.
 
 The output is a matrix (timesteps × M).
 """
-function θs_macro(θs::AbstractArray,C::Integer,M::Integer)
+function θs_macro(θs::AbstractArray,Nc)
 	tot_steps=length(θs[:,1])
-	θs_means=zeros(tot_steps,C)
+	θs_means=zeros(tot_steps,length(Nc))
     splits = get_splits(Nc)
 	for t in 1:tot_steps
 		# for i in 1:M:C*M
