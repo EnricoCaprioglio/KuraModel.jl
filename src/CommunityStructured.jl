@@ -1,3 +1,6 @@
+using Distributions
+using Kuramodel
+
 """
     function fun_pattern(A,θs,t_span)
 
@@ -30,11 +33,11 @@ function fun_pattern(A::AbstractMatrix,θs::AbstractArray,t_span)
 end
 
 
-# probably I can make this faster by subratcting the tranpose of the matrix at each timestep
+# probably I can make this faster by subratcting the transpose of the matrix at each timestep
 # not sure if I will need a fater function so for now I can keep it like this for readability
 
 """
-	function ω_locals(ω,C,M)
+    function ω_macro(ω::AbstractArray,Nc::AbstractArray)
 This function finds the local mean natural frequency for each community.
 
     Inputs:
@@ -45,11 +48,14 @@ This function finds the local mean natural frequency for each community.
     Output:
         means::AbstractVector   the natural frequencies of each macroscillator
 """
-function ω_macro(ω::AbstractArray,C::Integer,M::Integer)
+function ω_macro(ω::AbstractArray,Nc::AbstractArray)
+    splits = get_splits(Nc)
 	means=[]
-	for i in 1:M:C*M
-		push!(means,mean(ω[i:i+M-1]))
-	end
+	for i in 1:length(splits)
+        if i%2 == 1
+            push!(means,mean(ω[splits[i]:splits[i+1]]))
+        end
+    end
 	return means
 end
 
@@ -69,13 +75,18 @@ The output is a matrix (timesteps × M).
 function θs_macro(θs::AbstractArray,C::Integer,M::Integer)
 	tot_steps=length(θs[:,1])
 	θs_means=zeros(tot_steps,C)
+    splits = get_splits(Nc)
 	for t in 1:tot_steps
-		for i in 1:M:C*M
-			c_temp=round(Integer,ceil(i/M))
-			θs_means[t,c_temp]=mean(θs[t,i:i+M-1])
-		end
+		# for i in 1:M:C*M
+		# 	c_temp=round(Integer,ceil(i/M))
+		# 	θs_means[t,c_temp]=mean(θs[t,i:i+M-1])
+		# end
+        for i in 1:length(splits)
+            if i%2 == 1
+                c=Integer(i/2) # find community index
+                θs_means[t,c_temp]=mean(θs[t,splits[i]:splits[i+1]])
+            end
+        end
 	end
 	return θs_means
 end
-
-# modify such that communities can be of any size (using Nc)

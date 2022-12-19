@@ -24,3 +24,15 @@ A=[0 1;1 0];
 # start simulation
 θs=Kuramodel.Kurasim(σ,ω,A,t,Δt,seedval=seedvalue)
 θs
+
+Nc = [4,3,2,3]
+using Distributions
+splits=get_splits(Nc)
+ω = [1,2,3,2,4,5,6,3,3,7,8,9]
+means=[]
+for i in 1:length(splits)
+   if i%2 == 1
+       push!(means,mean(ω[splits[i]:splits[i+1]]))
+   end
+end
+means
