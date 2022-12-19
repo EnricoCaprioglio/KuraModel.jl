@@ -83,7 +83,7 @@ function θs_macro(θs::AbstractArray,Nc)
 		# end
         for i in 1:length(splits)
             if i%2 == 1
-                c=Integer(i/2) # find community index
+                c=round(Integer,ceil(i/2)) # find community index
                 θs_means[t,c_temp]=mean(θs[t,splits[i]:splits[i+1]])
             end
         end
