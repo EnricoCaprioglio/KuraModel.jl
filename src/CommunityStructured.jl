@@ -42,8 +42,7 @@ This function finds the local mean natural frequency for each community.
 
     Inputs:
         ω::AbstractArray		the vector of frequencies.
-        C::Integer 				the number of communities.
-        M::Integer 				the number of oscillators per community.
+        Nc::AbstractArray       array containing the number of oscillators per community
 
     Output:
         means::AbstractVector   the natural frequencies of each macroscillator
@@ -65,14 +64,13 @@ This function finds the local mean phase for each community at each time step.
 
     Inputs:
         θs::AbstractArray		    the matrix of instantaneous phases.
-        C::Integer 				    the number of communities.
-        M::Integer 				    the number of oscillators per community.
+        Nc::AbstractArray           array containing the number of oscillators per community
     Output:
         θs_means::AbstractArray     instantaneous community averaged phases at each timestep
 
 The output is a matrix (timesteps × M).
 """
-function θs_macro(θs::AbstractArray,Nc)
+function θs_macro(θs::AbstractArray,Nc::AbstractArray)
 	tot_steps=length(θs[:,1])
 	θs_means=zeros(tot_steps,length(Nc))
     splits = get_splits(Nc)
@@ -84,7 +82,7 @@ function θs_macro(θs::AbstractArray,Nc)
         for i in 1:length(splits)
             if i%2 == 1
                 c=round(Integer,ceil(i/2)) # find community index
-                θs_means[t,c_temp]=mean(θs[t,splits[i]:splits[i+1]])
+                θs_means[t,c]=mean(θs[t,splits[i]:splits[i+1]])
             end
         end
 	end
