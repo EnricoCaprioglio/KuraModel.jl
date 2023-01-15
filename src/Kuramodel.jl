@@ -4,6 +4,7 @@ module Kuramodel
 export greet
 export randθ
 export Kura_step
+export Kurastep
 export Kurasim
 export macro_op
 export get_splits
