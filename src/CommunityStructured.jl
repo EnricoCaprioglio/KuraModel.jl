@@ -1,5 +1,5 @@
 using Distributions
-using Kuramodel
+# using Kuramodel
 
 """
     function fun_pattern(A,θs,t_span)

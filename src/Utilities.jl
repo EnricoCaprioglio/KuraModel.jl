@@ -1,3 +1,5 @@
+using LaTeXStrings
+
 """
     function get_splits(Nc)
 This function is used in many other functions, such as ω_macro or θs_macro.
@@ -42,8 +44,6 @@ function get_splits(Nc)
 	end
     return splits
 end
-
-using LaTeXStrings
 
 """
 ```jldoctest
