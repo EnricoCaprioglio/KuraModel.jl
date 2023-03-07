@@ -43,6 +43,7 @@ function get_splits(Nc)
     return splits
 end
 
+using LaTeXStrings
 
 """
 ```jldoctest
