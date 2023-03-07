@@ -16,6 +16,10 @@ export Kura_step
 export Kura_sim
 export getsize
 
+export plot_local_op
+export ω_locals
+export θs_locals
+
 # where are these functions from?
 include("ExampleFunction.jl")
 include("Kuramoto.jl")

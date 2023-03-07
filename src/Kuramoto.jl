@@ -207,7 +207,7 @@ function Kurasim(σ::AbstractArray,ω::AbstractArray,A::AbstractMatrix,t_tot::In
 	N=length(ω)
 	# set optional arguments
 	if θ0 === nothing
-		θ0=rand(Uniform(-π, π),N)
+		θ0 = rand(Uniform(-π, π), N)
 	end
 	if noise_scale === nothing
 		noise_scale = 0
@@ -274,9 +274,7 @@ mutable struct Kura_obj
 	Kura_obj(σ, ω) = new(σ, ω, ones(length(σ),length(σ)), rand(Uniform(-π, π),N))
 end
 
-# τ=nothing,noise_scale=nothing,seedval=nothing
-
-getsize(x::Kura_obj)=size(x.A)
+getsize(x::Kura_obj) = size(x.A)
 
 function Kura_step(kobj::Kura_obj, Δt::Number; τ = 0.0, noise_scale = 0.0)
 	# get size
