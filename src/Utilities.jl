@@ -47,12 +47,12 @@ end
 
 """
 ```jldoctest
-	function plot_local_op(θs::AbstractArray,Nc::AbstractArray)
+	function plot_local_op(θs::AbstractArray, Nc::AbstractArray, steps_to_plot=nothing)
 ```
 Function used to plot the local order parameters for each community `c`.
 To plot use `plot(plot_local_op(θs, Nc)..., kwargs)`.
 """
-function plot_local_op(θs::AbstractArray, Nc::AbstractArray, steps_to_plot=nothing)
+function plot_local_op(θs::AbstractArray, Nc::AbstractArray; steps_to_plot = nothing)
 	ps = []
 	splits = get_splits(Nc)
 
