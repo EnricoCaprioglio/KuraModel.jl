@@ -64,9 +64,9 @@ function plot_local_op(θs::AbstractArray, Nc::AbstractArray; steps_to_plot = no
 			if steps_to_plot === nothing
 				push!(ps,
 					plot(
-						macro_op(θs[:,splits[i]:splits[i+1]]),
+						macro_op(θs[ : , splits[i] : splits[i+1]]),
 						label = "",
-						ylims = [0.,1.],
+						ylims = [0., 1.],
 						bg = RGB(0.2, 0.2, 0.2),
 						title = L"R_{%$(c)}(t)"
 					)
@@ -75,9 +75,9 @@ function plot_local_op(θs::AbstractArray, Nc::AbstractArray; steps_to_plot = no
 				push!(ps,
 					plot(
 						steps_to_plot,
-						macro_op(θs[:,splits[i]:splits[i+1]]),
+						macro_op(θs[ : , splits[i] : splits[i+1]]),
 						label = "",
-						ylims = [0.,1.],
+						ylims = [0., 1.],
 						bg = RGB(0.2, 0.2, 0.2),
 						title = L"R_{%$(c)}(t)"
 					)
@@ -89,7 +89,7 @@ function plot_local_op(θs::AbstractArray, Nc::AbstractArray; steps_to_plot = no
 end
 
 """
-    function fun_pattern(A,θs,t_span)
+    fun_pattern(A::AbstractMatrix, θs::AbstractArray, t_span)
 
 Function used to calculate the functional pattern (correlation matrix)
 of a system of oscillators.
@@ -102,29 +102,29 @@ of a system of oscillators.
     Output:
         R::AbstractMatrix   functional pattern matrix for time window t_span
 """
-function fun_pattern(A::AbstractMatrix,θs::AbstractArray,t_span)
-    R=zeros(size(A))
+function fun_pattern(A::AbstractMatrix, θs::AbstractArray, t_span)
+    
+    R = zeros(size(A))
+
     for i in 1:length(A[1,:])
         for j in 1:length(A[1,:])
-            # local corr_array=[]
-            local corr_sum=0
+            local corr_sum = 0
             for t in t_span[1]:t_span[2]
-                # append!(corr_array,cos(θs[t,j]-θs[t,i]))
-                corr_sum+=cos(θs[t,j]-θs[t,i])
+                corr_sum += cos(θs[t,j] - θs[t,i])
             end
-            # R[i,j]=mean(corr_array)
-            R[i,j]=corr_sum/(t_span[2]-t_span[1]+1)
+            R[i,j] = corr_sum / (t_span[2] - t_span[1]+1)
         end
     end
+
     return R
 end
 
 
-# probably I can make this faster by subratcting the transpose of the matrix at each timestep
+# probably I can make this faster by subtracting the transpose of the matrix at each timestep
 # not sure if I will need a fater function so for now I can keep it like this for readability
 
 """
-    function ω_macro(ω::AbstractArray,Nc::AbstractArray)
+    function ω_macro(ω::AbstractArray, Nc::AbstractArray)
 This function finds the local mean natural frequency for each community.
 
     Inputs:
@@ -135,18 +135,20 @@ This function finds the local mean natural frequency for each community.
         means::AbstractVector   the natural frequencies of each macroscillator
 """
 function ω_macro(ω::AbstractArray,Nc::AbstractArray)
+
     splits = get_splits(Nc)
-	means=[]
+	means = []
+    
 	for i in 1:length(splits)
         if i%2 == 1
-            push!(means,mean(ω[splits[i]:splits[i+1]]))
+            push!(means, mean(ω[splits[i]:splits[i+1]]))
         end
     end
 	return means
 end
 
 """
-	function θs_locals(θs::AbstractArray,C::Integer,M::Integer)
+    function θs_macro(θs::AbstractArray,Nc::AbstractArray)
 This function finds the local mean phase for each community at each time step.
 
     Inputs:
@@ -158,14 +160,12 @@ This function finds the local mean phase for each community at each time step.
 The output is a matrix (timesteps × M).
 """
 function θs_macro(θs::AbstractArray,Nc::AbstractArray)
-	tot_steps=length(θs[:,1])
+	
+    tot_steps=length(θs[:,1])
 	θs_means=zeros(tot_steps,length(Nc))
     splits = get_splits(Nc)
+
 	for t in 1:tot_steps
-		# for i in 1:M:C*M
-		# 	c_temp=round(Integer,ceil(i/M))
-		# 	θs_means[t,c_temp]=mean(θs[t,i:i+M-1])
-		# end
         for i in 1:length(splits)
             if i%2 == 1
                 c=round(Integer,ceil(i/2)) # find community index
@@ -173,6 +173,7 @@ function θs_macro(θs::AbstractArray,Nc::AbstractArray)
             end
         end
 	end
+
 	return θs_means
 end
 
@@ -192,6 +193,7 @@ function ω_locals(ω::AbstractArray, Nc::AbstractArray)
 			push!(means, mean(ω[splits[i]:splits[i+1]]))
 		end
 	end
+
 	return means
 end
 

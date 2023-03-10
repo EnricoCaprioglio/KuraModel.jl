@@ -1,6 +1,12 @@
 using Distributions
 using Random
 
+# Content:
+# Kurastep (kuramoto update function);
+# Kurasim (kuramoto simulation);
+# macro_op (KOP function);
+# Kura_obj and its functions (Kura_step, Kura_sim, getsize)
+
 ## TODO
 #1 Probably no need to include the seedvalue in the step function as well, since it is
 # already in the Kurasim function
@@ -23,7 +29,7 @@ Simple Euler's method to compute the step evolution of N Kuramoto oscillators.
     Optional Inputs:
         θ::AbstractArray    instantaneous phases
         noise_scale::Number noise coefficient
-        τ::Number           phase delay
+        τ::Number           phase lag
     
     Output:
         θ::AbstractArray    updated phases (1 Δt step)
@@ -97,7 +103,7 @@ Function to execute a Kuramoto simulation.
     Optional Inputs:
         θ::AbstractArray    initial instantaneous phases
         noise_scale::Number noise coefficient
-        τ::Number           phase delay
+        τ::Number           phase lag
 
     Output:
         θs::AbstractArray   updated phases at each timestep (tot number of steps=t_tot/Δt)
