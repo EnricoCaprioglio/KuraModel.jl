@@ -120,10 +120,6 @@ function fun_pattern(A::AbstractMatrix, θs::AbstractArray, t_span)
     return R
 end
 
-
-# probably I can make this faster by subtracting the transpose of the matrix at each timestep
-# not sure if I will need a fater function so for now I can keep it like this for readability
-
 """
     function ω_macro(ω::AbstractArray, Nc::AbstractArray)
 This function finds the local mean natural frequency for each community.
@@ -220,4 +216,117 @@ function θs_locals(θs::AbstractArray, Nc::AbstractArray)
 		end
 	end
 	return θs_means
+end
+
+"""
+```jldoctest
+	get_neighbours(
+		A::AbstractMatrix,
+		i::Integer;
+		val = 0.0)
+```
+This function outputs the list of neighbours of node `i`.
+
+The optional argument `val` is used to find the list of neighbours with a shared weighted edge of weight equal to `val`.
+
+Parameters:
+
+	A: 			adjacency matrix
+	i: 			node index
+
+Optional parameters:
+
+	val: 		if the matrix is weighted
+
+"""
+function get_neighbours(A::AbstractMatrix, i::Integer; val = 0.0)
+	
+	if val != 0.0
+		return findall(x -> x == val, A[i, :])
+	else
+		return findall(x -> x != 0.0, A[i, :])
+	end
+	
+end
+
+"""
+```jldoctest
+	macro_to_micro(
+		Amacro::AbstractMatrix,
+		C::Integer,
+		M::Integer,
+		d1::Integer;
+		d0 = 0.0, μ = 0.6, ν = 0.4
+	)
+```
+This function creates a community-structured netwrok with C communities of M nodes per community. Each node has `d0` intra-community connections and `d1` inter-community connections on average.
+
+Parameters:
+
+	Amacro: 	macroscopic connectivity matrix
+	C: 			number of communities
+	M: 			number of nodes per community
+	d1: 		number of inter-community connections
+
+Optional parameters:
+
+	d0: 		number of intra-community connections
+	μ: 			coupling between agents in the same community
+	ν: 			coupling between agents in different communities
+
+Above C × M = 2000 nodes the function will start to slow down.
+"""
+function macro_to_micro(Amacro::AbstractMatrix, C::Integer, M::Integer, d1::Integer; d0 = 0.0, μ = 0.6, ν = 0.4)
+
+	N = C * M
+	# init matrix
+	A = zeros(N, N)
+	sp = get_splits(repeat([M], C))
+		
+	# add communities
+	if d0 == 0.0
+		for i in 1:lastindex(sp)
+			if i % 2 == 1
+				local mat = ones(M, M) .* μ
+				A[sp[i] : sp[i+1], sp[i] : sp[i+1]] = mat
+			end
+		end
+	else
+		for i in 1:N
+			# i belongs to community x1
+	        x1 = mod(ceil(i / M) - 1, C) + 1
+	        for j in (i + 1):N
+	            if i != j
+					# j belongs to community x2
+	                x2 = mod(ceil(j / M) - 1, C) + 1
+	                if x1 == x2 && rand() < (d0 / (M - 1))
+	                    A[i, j] = μ
+                    	A[j, i] = μ
+					end
+				end
+			end
+		end
+	end
+	
+	# add inter-community connectivity
+	for i in 1:N
+		# i belongs to community x1
+		x1 = round(Integer, mod(ceil(i / M) - 1, C) + 1)
+		# neighbourhood of community x1:
+		local macro_neigh = get_neighbours(Amacro, x1)
+		for j in (i + 1):N
+			# j belongs to community x2
+			x2 = round(Integer, mod(ceil(j / M) - 1, C) + 1)
+			if x1 != x2 && x2 ∈ macro_neigh  # j is a possible connection for i
+				if rand() < (d1 / (M * length(macro_neigh)))
+					A[i, j] = ν
+                    A[j, i] = ν
+				end
+			end
+		end	
+	end
+
+	setindex!.(Ref(A), 0.0, 1:N, 1:N)  # set diagonal to zero
+	
+	return A
 end

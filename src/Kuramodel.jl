@@ -19,6 +19,8 @@ export θs_macro
 export ω_macro
 export get_splits
 export fun_pattern
+export macro_to_micro
+export get_neighbours
 
 include("InformationTheory.jl")
 export shannon
