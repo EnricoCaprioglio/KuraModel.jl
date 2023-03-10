@@ -8,8 +8,10 @@ using Random
 #3 
 
 """
+```jldoctest
 	Kurastep(σ::AbstractArray,ω::AbstractArray,A::AbstractMatrix,dt::Number;
         θ=nothing::AbstractArray,noise_scale=nothing,seedval=nothing,τ=nothing)
+```
 
 Simple Euler's method to compute the step evolution of N Kuramoto oscillators.
     
@@ -128,46 +130,58 @@ A=[0 1;1 0];
 """
 function Kurasim(σ::AbstractArray,ω::AbstractArray,A::AbstractMatrix,t_tot::Integer,Δt::Number;
 	θ0=nothing,noise_scale=nothing,seedval=nothing,τ=nothing)
+
 	# number of nodes N
 	N=length(ω)
+
 	# set optional arguments
 	if θ0 === nothing
 		θ0 = rand(Uniform(-π, π), N)
 	end
+
 	if noise_scale === nothing
 		noise_scale = 0
 	end
+
 	if seedval !== nothing
 		# println("Seed value: $(round(Int,seedval))")
 		Random.seed!(round(Int,seedval));
 	end
+
 	# check for dimension mismatch
 	if size(A) != (N,N)
 		error("Dimension mismatch with adj matrix")
 	end
+
 	if length(θ0) != N
 		error("Dimension mismatch with phases array")
 	end
+
 	if length(σ) != N
 		error("Dimension mismatch with couplings array")
 	end
+
 	# Initialize matrix to store phases: (t x N) matrix
 	# each row stores the instantaneous phases of all N oscillators
-	tot_steps=round(Integer,t_tot/Δt)
-	θs=zeros(tot_steps,N);
+	tot_steps = round(Integer, t_tot / Δt)
+	θs = zeros(tot_steps, N)
 	# record initial phases at t=1
 	θs[1,:] = θ0
+
 	for t in 2:tot_steps
 		# update phases
-		θs[t,:]=Kurastep(σ,ω,A,Δt;θ=θs[t-1,:],τ=τ,noise_scale=noise_scale,seedval=seedval)
+		θs[t,:] = Kurastep(σ, ω, A, Δt; θ = θs[t-1,:], τ = τ, noise_scale = noise_scale, seedval = seedval)
 	end
+
     println("Simulation completed, total steps: $(tot_steps)")
+
 	return θs
 end
 
 """
+```jldoctest
 	macro_op(θs::AbstractMatrix)
-
+```
 Function to calculate the instantaneous macroscopic parameter for each row
 of the instantaneous phases stored in θs.
 
@@ -182,8 +196,8 @@ of the instantaneous phases stored in θs.
 """
 function macro_op(θs::AbstractMatrix)
 	# num of cols = N
-	N=length(θs[1,:])
-    map(θ -> abs(sum(exp.(im*θ)/N)), eachrow(θs))
+	N = length(θs[1, : ])
+    map(θ -> abs(sum(exp.(im * θ) / N)), eachrow(θs))
 end
 
 mutable struct Kura_obj
