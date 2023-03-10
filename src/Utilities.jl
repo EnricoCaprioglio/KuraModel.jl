@@ -1,5 +1,6 @@
 using LaTeXStrings
 using Distributions
+using Plots
 
 """
     function get_splits(Nc)
