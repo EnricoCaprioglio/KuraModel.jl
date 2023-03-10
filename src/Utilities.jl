@@ -79,7 +79,7 @@ function plot_local_op(θs::AbstractArray, Nc::AbstractArray; steps_to_plot = no
 						macro_op(θs[ : , splits[i] : splits[i+1]]),
 						label = "",
 						ylims = [0., 1.],
-						bg = RGB(0.2, 0.2, 0.2),
+						bg = Plots.RGB(0.2, 0.2, 0.2),
 						title = L"R_{%$(c)}(t)"
 					)
 				)
