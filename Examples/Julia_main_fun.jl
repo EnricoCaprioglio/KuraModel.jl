@@ -10,8 +10,14 @@ function main(arg)
     println("This is the input to the main function: $arg")
 end
 
-println("Before greet()")
+# println("Before greet()")
 
-greet()
+# greet()
 
-println("After greet()")
+# println("After greet()")
+
+# some calculations:
+a = zeros(2,2)
+b = randn(5)
+c = "some string"
+println("Very nice calculations!")
