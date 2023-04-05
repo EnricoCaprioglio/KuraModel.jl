@@ -207,16 +207,21 @@ function macro_op(θs::AbstractMatrix)
 end
 
 mutable struct Kura_obj
+
 	σ::AbstractArray
 	ω::AbstractArray
 	A::AbstractMatrix
 	θ::AbstractArray
+
 	# instantiate
 	Kura_obj(σ, ω, A, θ) = new(σ, ω, A, θ)
+
 	# random initial phases
 	Kura_obj(σ, ω, A) = new(σ, ω, A, rand(Uniform(-π, π), N))
+
 	# random initial phases and complete graph
 	Kura_obj(σ, ω) = new(σ, ω, ones(length(σ),length(σ)), rand(Uniform(-π, π),N))
+	
 end
 
 getsize(x::Kura_obj) = size(x.A)
@@ -229,7 +234,7 @@ function Kura_step(kobj::Kura_obj, Δt::Number; τ = 0.0, noise_scale = 0.0)
 		θj_θi_mat = repeat(kobj.θ',N)-repeat(kobj.θ',N)' # matrix of θ_j-θ_i
 	else
 		θj_θi_mat = (repeat(kobj.θ',N)-repeat(kobj.θ',N)').-τ
-		# setindex!.(Ref(θj_θi_mat), 0.0, 1:N, 1:N) # set diagonal elements to zero (self-interaction terms)
+		setindex!.(Ref(θj_θi_mat), 0.0, 1:N, 1:N) # set diagonal elements to zero (self-interaction terms)
 	end
 	k1 = *(kobj.A.*sin.(θj_θi_mat), kobj.σ)
 	kobj.θ += Δt.*(kobj.ω + k1) + noise_scale*(rand(Normal(0,1),N))*sqrt(Δt)
