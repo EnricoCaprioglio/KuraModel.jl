@@ -10,4 +10,8 @@ function main(arg)
     println("This is the input to the main function: $arg")
 end
 
+println("Before greet()")
+
 greet()
+
+println("After greet()")
