@@ -1,4 +1,5 @@
 using Kuramodel
+using Plots
 
 # to call some function from the terminal, in order to sepcify the argument
 # which could be some environment variable from the job description
@@ -21,3 +22,5 @@ a = zeros(2,2)
 b = randn(5)
 c = "some string"
 println("Very nice calculations!")
+
+plot(b)
