@@ -21,6 +21,9 @@ end
 a = zeros(2,2)
 b = randn(5)
 c = "some string"
-println("Very nice calculations!")
+
+println("Very nice calculations!\n")
+println("ARGS is the global variable for the arguments: $(ARGS)\n")
+println("While PROGRAM_FILE is the global variable of the name of the script: $(PROGRAM_FILE)")
 
 plot(b)
