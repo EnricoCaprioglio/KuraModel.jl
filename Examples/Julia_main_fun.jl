@@ -25,7 +25,7 @@ println("- While PROGRAM_FILE is the global variable of the name of
 println("This is the current working directory: ", pwd())
 
 # set path
-store_data_path = "/mnt/nfs2/inf/ec627/src/Kuramodel/Examples/"
+store_data_path = "/mnt/nfs2/inf/ec627/src/Kuramodel/Examples/DataTest/"
 filename1 = "randomData1.jld2"
 filename2 = "randomData2.jld2"
 
