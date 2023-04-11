@@ -25,12 +25,15 @@ println("- While PROGRAM_FILE is the global variable of the name of
 println("This is the current working directory: ", pwd())
 
 # set path
-store_data_path = "/mnt/nfs2/inf/ec627/test/datatest"
-filename = "randomData"
+store_data_path = "/mnt/nfs2/inf/ec627/src/Kuramodel/Examples"
+filename1 = "randomData1.jld2"
+filename2 = "randomData2.jld2"
 
 # create some random reproducible data
 Random.seed!(123)
-b = randn(5)
+a = randn(5)
+b = randn(10)
 
 # save test object
-save_object(store_data_path * filename, x)
+save_object(store_data_path * filename1, a)
+save_object(store_data_path * filename2, b)
