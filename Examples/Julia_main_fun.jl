@@ -1,6 +1,7 @@
 using Kuramodel
 using Plots
-using JDL2
+using JLD2
+using Random
 
 # to call some function from the terminal, in order to sepcify the argument
 # which could be some environment variable from the job description
@@ -16,18 +17,20 @@ end
 
 # julia file.jl arg1 arg2 ...
 
-# println("Before greet()")
-# greet()
-# println("After greet()")
-
-# some random calculations:
-a = zeros(2,2)
-b = randn(5)
-c = "some string"
-
 println("- ARGS is the global variable for the arguments: $(ARGS)\n")
 println("- While PROGRAM_FILE is the global variable of the name of 
     the script: $(PROGRAM_FILE)\n"
     )
 
-println(pwd())
+println("This is the current working directory: ", pwd())
+
+# set path
+store_data_path = "/mnt/nfs2/inf/ec627/test/datatest"
+filename = "randomData"
+
+# create some random reproducible data
+Random.seed!(123)
+b = randn(5)
+
+# save test object
+save_object(store_data_path * filename, x)
