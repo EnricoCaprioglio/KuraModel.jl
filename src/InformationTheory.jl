@@ -8,7 +8,7 @@ Requires `sum(p) == 1`.
 function shannon(p::AbstractArray)
 
     # check requirement
-    if sum(p) != 0
+    if sum(p) != 1
         error("Probability distribution needs to add up to 1")
     end
 

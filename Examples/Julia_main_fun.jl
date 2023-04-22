@@ -31,7 +31,7 @@ filename2 = "randomData2.jld2"
 
 # create some random reproducible data
 Random.seed!(123)
-a = randn(5)
+a = "$(ARGS)"
 b = randn(10)
 
 # save test object
