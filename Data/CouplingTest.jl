@@ -84,7 +84,8 @@ seedval = 123
 Random.seed!(seedval)
 
 # size of the system
-M = 50  # oscillators per community
+# **Convert array job input to a number**
+M = parse(Int, ARGS[1])  # oscillators per community 
 C = 4  # number of communities
 Nc = repeat([M], C)  # utils
 sp = get_splits(Nc)  # utils
@@ -118,11 +119,11 @@ microσ = repeat([1], C*M)
 #### parameter space to explore ####
 
 # α already normalized
-αs = collect(5:5:100) ./ M
+αs = collect(1:2:100) ./ M
 Np = lastindex(αs)
 
 # ratios: β =  α * r
-r = collect(1:20) .^-1
+r = collect(1:20/50:20+(40/50)) .^-1
 
 # β already normalized:
 βs = zeros(Np, Np)
@@ -195,7 +196,7 @@ end
 ############ save data #############
 
 # set path MANUALLY
-filepath = "/mnt/nfs2/inf/ec627/data/StructuralControl/CouplingRatio/test/"
+filepath = "/mnt/nfs2/inf/ec627/src/Kuramodel/Data/StructuralControl/CouplingRatio/test/"
 
 fileroot = "CouplingRatio"
 fileseed = "Seed" * string(seedval)
@@ -204,7 +205,7 @@ fileM = "M" * string(M)
 # ratio to add MANUALLY
 fileratio = "Ratio" * "1to20"
 # alpha to add MANUALLY
-filealpha = "Alpha" * "5to100"
+filealpha = "Alpha" * "1to100"
 
 filename = filepath * fileroot * fileseed * fileM * fileratio * filealpha * ".jld2"
 
