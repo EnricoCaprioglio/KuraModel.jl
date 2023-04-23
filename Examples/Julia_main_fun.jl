@@ -31,7 +31,7 @@ extension = ".jld2"
 
 # create some random reproducible data
 Random.seed!(123)
-a = $(ARGS[1])
+a = ARGS[1]
 
 println("This will be stored in: ", store_data_path * filenameroot * arrayname * extension, "the values stored is: $(a)")
 

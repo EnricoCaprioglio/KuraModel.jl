@@ -13,7 +13,7 @@
 # -- Execute this job from the current working directory.
 #$ -cwd
 # -- use the trial.q
-#$ -q trial.q
+# #$ -q trial.q
 # -- Job output to stderr will be merged into standard out. Remove this line if
 # -- you want to have separate stderr and stdout log files
 #$ -j y
