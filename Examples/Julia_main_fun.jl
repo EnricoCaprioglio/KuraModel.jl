@@ -26,12 +26,14 @@ println("This is the current working directory: ", pwd())
 # set path
 store_data_path = "/mnt/nfs2/inf/ec627/src/Kuramodel/Examples/DataTest/"
 filenameroot = "randomData"
-arrayname = "$(ARGS)"
+arrayname = "$(ARGS[1])"
 extension = ".jld2"
 
 # create some random reproducible data
 Random.seed!(123)
-a = $(ARGS)
+a = $(ARGS[1])
+
+println("This will be stored in: ", store_data_path * filenameroot * arrayname * extension, "the values stored is: $(a)")
 
 # save test object
 save_object(store_data_path * filenameroot * arrayname * extension, a)
