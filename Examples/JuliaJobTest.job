@@ -42,6 +42,6 @@ module load Julia
 # above to the script. Since we are using the option -cwd above, we can use a
 # relative path, but it is often good to use a fully qualified path when you
 # can, like so:
-#   /home/$USER/job_templates/batch_serial/Julia_main_fun.jl $ARG_DIGITS
-./Julia_main_fun.jl $ARG_DIGITS
+#   ./Julia_main_fun.jl $ARG_DIGITS
+julia /home/ec627/src/Kuramodel/Examples/Julia_main_fun.jl $ARG_DIGITS
 echo "Finished job script"
