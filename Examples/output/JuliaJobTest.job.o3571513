@@ -1,8 +1,0 @@
-Running job script
-/home/ec627/src/Kuramodel/Examples/Julia_main_fun.jl: line 1: using: command not found
-/home/ec627/src/Kuramodel/Examples/Julia_main_fun.jl: line 2: using: command not found
-/home/ec627/src/Kuramodel/Examples/Julia_main_fun.jl: line 3: using: command not found
-/home/ec627/src/Kuramodel/Examples/Julia_main_fun.jl: line 4: using: command not found
-/home/ec627/src/Kuramodel/Examples/Julia_main_fun.jl: line 10: syntax error near unexpected token `arg'
-/home/ec627/src/Kuramodel/Examples/Julia_main_fun.jl: line 10: `function main(arg)'
-Finished job script

@@ -1,8 +1,0 @@
-Running job script
-- ARGS is the global variable for the arguments: ["10000"]
-
-- While PROGRAM_FILE is the global variable of the name of 
-    the script: /home/ec627/src/Kuramodel/Examples/Julia_main_fun.jl
-
-This is the current working directory: /mnt/nfs2/inf/ec627/src/Kuramodel/Examples
-Finished job script
