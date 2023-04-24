@@ -19,8 +19,8 @@
 #$ -j y
 #$ -o output/
 # -- Send email when the job exits, is aborted or suspended
-#$ -m eas
-#$ -M ec627@sussex.ac.uk
+# #$ -m eas
+# #$ -M ec627@sussex.ac.uk
 
 ######################################################################
 

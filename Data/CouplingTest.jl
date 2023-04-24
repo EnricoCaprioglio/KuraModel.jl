@@ -78,14 +78,6 @@ function micro_structure(δ, β, α, C, M)
 	return microA
 end
 
-function get_splits(Nc)
-    splits = []
-	for (i,c) in enumerate(Nc)
-		append!(splits,sum(Nc[1:i-1])+1, sum(Nc[1:i-1])+Nc[i])
-	end
-    return splits
-end
-
 ######### fixed parameters #########
 
 # seedval
@@ -95,7 +87,7 @@ Random.seed!(seedval)
 # size of the system
 # **Convert array job input to a number**
 M = parse(Int, ARGS[1])  # oscillators per community 
-# M = 40
+# M = 10
 C = 4  # number of communities
 Nc = repeat([M], C)  # utils
 sp = get_splits(Nc)  # utils
@@ -220,6 +212,6 @@ filealpha = "Alpha" * "1to100"
 filename = filepath * fileroot * fileseed * fileM * fileratio * filealpha * ".jld2"
 
 save_object(filename, results)
-# save_object("LOCAL-M40.jld2", results)
+# save_object("LOCAL-M10.jld2", results)
 
 ####################################

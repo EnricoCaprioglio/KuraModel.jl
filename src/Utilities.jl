@@ -40,12 +40,27 @@ splits = get_splits(Nc)
  ```
 """
 function get_splits(Nc)
-    splits = []
-	for (i,c) in enumerate(Nc)
-		append!(splits,sum(Nc[1:i-1])+1, sum(Nc[1:i-1])+Nc[i])
+	
+	splits = [1, Nc[1]]
+	
+	for i in 2:lastindex(Nc)
+		
+		first = sum(Nc[1:(i-1)]) + 1
+		last = sum(Nc[1:i])
+		
+		push!(splits, first)
+		push!(splits, last)
 	end
-    return splits
+	
+	return splits
 end
+# function get_splits(Nc)
+#     splits = []
+# 	for (i,c) in enumerate(Nc)
+# 		append!(splits,sum(Nc[1:i-1])+1, sum(Nc[1:i-1])+Nc[i])
+# 	end
+#     return splits
+# end
 
 """
 ```jldoctest
