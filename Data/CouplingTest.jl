@@ -95,7 +95,7 @@ sp = get_splits(Nc)  # utils
 # system fixed parameters
 macroω = [-2.0, -1.0, 1.0, 2.0]  # natural frequencies
 x_desired = [π/8, π/6, π/4]  # desired phase differences
-δ = [5.226251859505506, 6, 2√(2)]  # macroscopic couplings δ
+δ = [5.226251859505506, 6, 2 * sqrt(2)]  # macroscopic couplings δ
 
 # simulation settings
 t_f = 10^2  # simulation time
@@ -198,7 +198,7 @@ end
 ############ save data #############
 
 # set path MANUALLY
-filepath = "/mnt/nfs2/inf/ec627/src/Kuramodel/Data/StructuralControl/CouplingRatio/test/"
+filepath = "/its/home/ec627/data/StructuralControl/CouplingRatio/test/"
 
 fileroot = "CouplingRatio"
 fileseed = "Seed" * string(seedval)
