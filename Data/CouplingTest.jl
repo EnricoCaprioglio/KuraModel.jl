@@ -78,6 +78,14 @@ function micro_structure(δ, β, α, C, M)
 	return microA
 end
 
+function get_splits(Nc)
+    splits = []
+	for (i,c) in enumerate(Nc)
+		append!(splits,sum(Nc[1:i-1])+1, sum(Nc[1:i-1])+Nc[i])
+	end
+    return splits
+end
+
 ######### fixed parameters #########
 
 # seedval
@@ -107,7 +115,7 @@ tot_steps = length(steps)  # total number of steps
 # frequencies, each community has a different average natural frequency
 microω = []           # Normal(i, 2.0), M) or Uniform(i - 1.0, i + 1.0)
 for i in macroω
-    microω = vcat(microω, rand(Uniform(i - 1.0, i + 1.0), M))
+    global microω = vcat(microω, rand(Uniform(i - 1.0, i + 1.0), M))
 end
 
 # initial random phases
