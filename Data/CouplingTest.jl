@@ -2,6 +2,7 @@ using Kuramodel
 using JLD2
 using Random
 using Distributions
+using LinearAlgebra
 
 """
 Function to chekc if, given the required macroscopic cpuolings `δ` and some community size,
@@ -86,6 +87,7 @@ Random.seed!(seedval)
 # size of the system
 # **Convert array job input to a number**
 M = parse(Int, ARGS[1])  # oscillators per community 
+# M = 40
 C = 4  # number of communities
 Nc = repeat([M], C)  # utils
 sp = get_splits(Nc)  # utils
@@ -149,7 +151,7 @@ for i in 1:Np
     end
 end
 
-results = zeros(Np. Np)
+results = zeros(Np, Np)
 
 for i in 1:Np
     for j in 1:Np
@@ -210,5 +212,6 @@ filealpha = "Alpha" * "1to100"
 filename = filepath * fileroot * fileseed * fileM * fileratio * filealpha * ".jld2"
 
 save_object(filename, results)
+# save_object("LOCAL-M40.jld2", results)
 
 ####################################
