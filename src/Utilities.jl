@@ -291,7 +291,7 @@ Optional parameters:
 
 Above C × M = 2000 nodes the function will start to slow down.
 """
-function macro_to_micro(Amacro::AbstractMatrix, C::Integer, M::Integer, d1::Integer; d0 = 0.0, μ = 0.6, ν = 0.4)
+function macro_to_micro(Amacro::AbstractMatrix, C::Integer, M::Integer, d1::Real; d0 = 0.0, μ = 0.6, ν = 0.4)
 
 	N = C * M
 	# init matrix
