@@ -254,3 +254,68 @@ function Kura_sim(kobj::Kura_obj, t_tot, Δt::Number; message = true)
 	return θs
 end
 
+"""
+	function Kura_step_D(
+		kobj::Kura_obj,
+		Δt::Number,
+		τ::AbstractMatrix,
+		θs::AbstractMatrix,
+		t_now::Number;
+		noise_scale = 0.0::Number
+	)
+
+"""
+function Kura_step_D(
+	kobj::Kura_obj,
+	Δt::Number,
+	τ::AbstractMatrix,
+	θs::AbstractMatrix,
+	t_now::Number;
+	noise_scale = 0.0::Number
+)
+	
+	# get size
+	N = getsize(kobj)[1];
+
+	# init matrix of delayed phases
+	θs_delay = zeros(N, N)
+	for i in 1:N
+		for j in (i+1):N
+			θs_delay[i, j] = θs[t_now - τ[i, j], j]
+			θs_delay[j, i] = θs[t_now - τ[i, j], j]
+		end
+	end
+	
+	# phase difference matrix	
+	θj_θi_mat = (θs_delay - repeat(kobj.θ', N)')
+	setindex!.(Ref(θj_θi_mat), 0.0, 1:N, 1:N) # set diagonal elements to zero 
+	
+	k1 = *(kobj.A .* sin.(θj_θi_mat), kobj.σ)
+	kobj.θ += Δt .* (kobj.ω + k1) + noise_scale * (rand(Normal(0,1),N))*sqrt(Δt)
+	
+end
+
+"""
+	function Kura_sim_D(kobj::Kura_obj, t_tot, Δt::Number; message = true)
+"""
+function Kura_sim_D(kobj::Kura_obj, t_tot, Δt::Number, τ, relaxation; message = true)
+	
+	N = getsize(kobj)[1];
+	θs = zeros(t_tot + relaxation,N);  # store thetas
+	θs[1,:] = kobj.θ;  # initial thetas
+	
+	for i in 2:relaxation
+		Kura_step(kobj, Δt)
+		θs[i,:] = kobj.θ;  # update current thetas
+	end
+
+	for i in relaxation:t_tot + relaxation - 1
+		θs[i+1, :] = Kura_step_D(kobj, Δt, τ, θs, i+1)
+	end
+	
+	if message === true
+		println("Simulation completed, total steps after relaxation: $(t_tot)")
+	end
+	
+	return θs[relaxation+1:end, :]
+end
