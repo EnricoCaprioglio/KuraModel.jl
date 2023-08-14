@@ -10,6 +10,8 @@ export Kura_obj
 export Kura_step
 export Kura_sim
 export getsize
+export Kura_step_D
+export Kura_sim_D
 
 include("Utilities.jl")
 export plot_local_op
