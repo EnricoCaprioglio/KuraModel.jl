@@ -280,9 +280,8 @@ function Kura_step_D(
 	# init matrix of delayed phases
 	θs_delay = zeros(N, N)
 	for i in 1:N
-		for j in (i+1):N
+		for j in 1:N
 			θs_delay[i, j] = θs[t_now - τ[i, j], j]
-			θs_delay[j, i] = θs[t_now - τ[i, j], j]
 		end
 	end
 	
