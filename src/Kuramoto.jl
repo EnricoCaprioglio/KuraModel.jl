@@ -310,7 +310,7 @@ function Kura_sim_D(kobj::Kura_obj, t_tot, Δt::Number, τ, relaxation; message 
 	end
 
 	for i in relaxation:t_tot + relaxation - 1
-		θs[i+1, :] = Kura_step_D(kobj, Δt, τ, θs, i+1)
+		θs[i+1, :] = Kura_step_D(kobj, Δt, τ, θs, i)
 	end
 	
 	if message === true
