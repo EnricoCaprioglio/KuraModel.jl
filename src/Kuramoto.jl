@@ -295,9 +295,9 @@ function Kura_step_D(
 end
 
 """
-	function Kura_sim_D(kobj::Kura_obj, t_tot, Δt::Number; message = true)
+	function Kura_sim_D(kobj::Kura_obj, t_tot, Δt::Number, τ, relaxation::Number; message = true)
 """
-function Kura_sim_D(kobj::Kura_obj, t_tot, Δt::Number, τ, relaxation; message = true)
+function Kura_sim_D(kobj::Kura_obj, t_tot, Δt::Number, τ::AbstractMatrix, relaxation; message = true)
 	
 	N = getsize(kobj)[1];
 	θs = zeros(t_tot + relaxation,N);  # store thetas

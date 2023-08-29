@@ -30,4 +30,24 @@ export effective_info
 
 include("ExampleFunction.jl")
 
+include("graphs/generators/Functions.jl")
+export get_alpha
+export get_ξ
+export px_HRGG
+export px_softHRGG
+export integrand_HRGG
+export integrand_softHRGG
+export get_avg_k_HRGG
+export get_avg_k_softHRGG
+export get_R_HRGG
+export get_R_softHRGG
+export sample_r
+export sample_ϕ
+export hyper_d
+export connect_nodes_HRGG
+export connect_nodes_softHRGG
+
+include("graphs/generators/GeometricGraphs.jl")
+export hyperbolic_graph
+
 end
