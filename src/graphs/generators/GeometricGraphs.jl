@@ -1,7 +1,4 @@
 using Kuramodel
-# using MCIntegration
-# using Distributions
-# using Random
 
 """
 	function hyperbolic_graph(graphtype, N, k, γ, T; ζ = 1, ϵ = 0.01, max_iter = 100)
