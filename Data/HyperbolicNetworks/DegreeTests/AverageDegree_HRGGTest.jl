@@ -120,6 +120,8 @@ else
     filename = filepath * fileseed * fileN * fileVarK * filegraphtype * ".jld2"
 end
 
+println("Job finished, saving object.\nParameters used were:\n", results)
+
 save_object(filename, results)
 
 ####################################
