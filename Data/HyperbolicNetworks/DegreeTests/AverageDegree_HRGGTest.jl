@@ -56,7 +56,7 @@ function test_numerical_k(graphtype, N, γ, T, var_k, iter_val; ζ = 1, ϵ = 0.0
 	
 end
 
-test = true
+test = false
 
 ######### parameters #########
 
