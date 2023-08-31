@@ -28,7 +28,7 @@ echo "Running job script"
 
 module load Julia
 
-julia /home/ec627/src/Kuramodel/Data/DelayBasicTests/DelayShanahan.jl $SGE_TASK_ID
+julia /home/ec627/src/Kuramodel/Data/DelayBasicsTests/DelayShanahan.jl $SGE_TASK_ID
 
 echo "Finished job script"
 

@@ -1,6 +1,7 @@
 using Kuramodel
 using Distributions
 using Random
+using JLD2
 
 function get_partition(M, C)
 
