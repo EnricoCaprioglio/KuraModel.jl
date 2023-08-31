@@ -125,7 +125,7 @@ for τ_global in 1:1:10
 
         # update θ short history
         θ_hist[1:end - 1, :] = θ_hist[2:end, :]
-        θ_hist[end, :] = kura_sys.θ + ω + coupling_sums
+        θ_hist[end, :] = kura_sys.θ + (ω * Δt) + coupling_sums
 
         # update Kura obj
         kura_sys.θ = θ_hist[end, :]
