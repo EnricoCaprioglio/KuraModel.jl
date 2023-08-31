@@ -64,10 +64,22 @@ for τ_global in 1:1:10
     partition_vec = get_partition(M, C)
     A = get_comm_mat(M, C, k, a, b, c_int)
 
+    # oscillators parameters
+    nat_f = 40  # Hz
+    ω = repeat([2 * π * nat_f], N)
+    σ = repeat([1], N)
+
+    # simulation parameters
+    Δt = 1e-4 # 0.1 ms
+    A = A .* Δt  # rescaled by the time step already
+    sim_time = 20  # seconds
+    steps = (0.0 + Δt):Δt:sim_time
+    no_steps = length(steps)
+
     # delays parameters
     # τ_global = 3
-    τ_int = τ_global
-    τ_ext = τ_global
+    τ_int = τ_global * 1e-3 # ms
+    τ_ext = τ_global * 1e-3 # ms
     τ = zeros(N, N)
     for i in 1:N
         for j in i+1:N
@@ -82,25 +94,13 @@ for τ_global in 1:1:10
             end
         end
     end
-    τ = round.(Integer, τ)
-
-    # oscillators parameters
-    nat_f = 40  # Hz
-    ω = repeat([2 * π * nat_f], N)
-    σ = repeat([1], N)
-    θ_hist = rand(Uniform(0, 2 * π), maximum(τ) + 1, N)
-
-    # simulation parameters
-    Δt = 1e-4
-    A = A .* Δt  # rescaled by the time already
-    sim_time = 20  # seconds
-    steps = (0.0 + Δt):Δt:sim_time
-    no_steps = length(steps)
+    τ = round.(Integer, τ ./ Δt)
 
     # storing parameters
     save_ratio = 10
     no_saves = round(Integer, no_steps / save_ratio)
     store_θ = zeros(no_saves, N)
+    θ_hist = rand(Uniform(0, 2 * π), maximum(τ) + 1, N)
 
     # init Kura object
     kura_sys = Kura_obj(σ, ω, A, θ_hist[end, :])
@@ -168,7 +168,7 @@ for τ_global in 1:1:10
 
     filecoupling = "Coupling_a_" * string(a)
     file_extr_conn = "Ext_conn_" * string(c_int)
-    file_τ_global = "Delay_global_" * string(τ_global)
+    file_τ_global = "Delay_global_" * string(τ_global) * "1e-3"
 
     filename = filepath * fileseed * filecoupling * file_extr_conn * file_τ_global * ".jld2"
 
