@@ -62,9 +62,13 @@ test = false
 
 # **Convert array job input to a number**
 # taskID should be between 1 and 10
-N = 100 * parse(Int, ARGS[1])  # number of nodes
+if test
+	N = 100
+else
+	N = 100 * parse(Int, ARGS[1])  # number of nodes
+end
 
-graphtype = :HRGG
+graphtype = :softHRGG
 
 if test
     var_k = [10, 20]
