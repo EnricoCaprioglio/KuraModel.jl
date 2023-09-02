@@ -61,7 +61,6 @@ for τ_global in 3:1:7
         a = parse(Int, ARGS[1]) / 10
         b = 0.6
         k = 8
-        c_int = 4
         partition_vec = get_partition(M, C)
         A = get_comm_mat(M, C, k, a, b, c_int)
 
