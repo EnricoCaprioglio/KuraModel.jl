@@ -99,7 +99,7 @@ results = test_numerical_k(graphtype, N, γ, T, var_k, iter_val; ζ = 1, ϵ = ϵ
 ####################################
 ############ save data #############
 
-filepath = "/its/home/ec627/data/HyperbolicNetworks/DegreeTests/outputs/"
+filepath = "/mnt/lustre/scratch/inf/ec627/data/HyperbolicNetworks/DegreeTests/output/"
 
 fileseed = "Seed" * string(seedval)
 fileN = "noNodes" * string(N)
