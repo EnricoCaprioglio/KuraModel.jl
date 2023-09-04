@@ -28,7 +28,7 @@ echo "Running job script"
 
 module load Julia
 
-julia /home/ec627/src/Kuramodel/Data/MetastabilitySoftHRGG/MetastabilitySoftHRGG.jl $SGE_TASK_ID
+julia /home/ec627/src/Kuramodel/Data/MetastabilitySoftHRGG/MetastabilitySoftHRGGvarying_T.jl $SGE_TASK_ID
 
 echo "Finished job script"
 
