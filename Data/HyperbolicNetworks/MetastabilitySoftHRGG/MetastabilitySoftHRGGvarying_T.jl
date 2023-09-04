@@ -17,7 +17,7 @@ k = 8
 if test
     γ_tests = [2.1, 2.9]
 else
-    γ_tests = collect(2.01:0.01:2.99)
+    γ_tests = collect(2.01:0.02:2.99)
 end
 
 for γ in γ_tests
@@ -40,7 +40,7 @@ for γ in γ_tests
     nat_f = 40  # Hz
     ω = repeat([2 * π * nat_f], N)
     σ = repeat([1], N)
-    K = 8 # global coupling
+    K = 10 # global coupling
 
     # simulation parameters
     Δt = 1e-4 # 0.1 ms
@@ -55,7 +55,7 @@ for γ in γ_tests
 
     # delay Matrix
     τ = zeros(N, N)
-    τ_global = 4 * 1e-3
+    τ_global = 3 * 1e-3
     for i in 1:N
         for j in 1+i:N
             if A[i, j] != 0
@@ -121,7 +121,7 @@ for γ in γ_tests
     # svae all results
     results = [store_θ, params, A]
 
-    filepath = "/mnt/lustre/scratch/inf/ec627/data/HyperbolicNetworks/MetastabilitySoftHRGG/"
+    filepath = "/mnt/lustre/scratch/inf/ec627/data/HyperbolicNetworks/MetastabilitySoftHRGG_var_K/K_10/"
 
     fileseed = "Seed" * string(seedval)
 
