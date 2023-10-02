@@ -87,7 +87,7 @@ end
 sim_time = 20
 steps = (0.0+Δt):Δt:sim_time
 if test
-    no_steps = 100
+    no_steps = 10
 else
     no_steps = length(steps)
 end
@@ -98,7 +98,11 @@ else
 end
 
 # storing parameters
-save_ratio = 10
+if test
+    save_ratio = 1
+else
+    save_ratio = 10
+end
 no_saves = round(Integer, no_steps / save_ratio)
 store_θ = zeros(no_saves, N)
 global θ_now = rand(Uniform(-π, π), N)
