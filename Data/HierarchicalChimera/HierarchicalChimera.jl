@@ -4,25 +4,22 @@ using Random
 using JLD2
 using LinearAlgebra
 
-seedval = 123
-Random.seed!(seedval)
+for seedval in [1,2,3,4,5,6,7,8,9,10]
+    Random.seed!(seedval)
 
-test = false
-noiseQ = false
-if test
-    job_ID = 3
-else
-    job_ID = parse(Int, ARGS[1])
-end
+    test = true
+    noiseQ = false
+    if test
+        job_ID = 3
+    else
+        job_ID = parse(Int, ARGS[1])
+    end
 
-# adjacency matrix parameters
-varB = collect(0.00:0.05:0.45)
-
-for B in varB
+    # adjacency matrix parameters
+    B = 0.0
     ν = (1 - B) / 2
     μ = 1 - ν
-    varM = [4, 8, 16, 32]
-    M = varM[job_ID]
+    M = 32
     C = 64
     N = M * C * 2
     K = 1
@@ -64,104 +61,99 @@ for B in varB
     end
 
     # lag parameters
-    var_β = collect(0.00:0.025:0.225)
+    β = 0.1
+    α = π / 2 - β  # lag parameter in the equations
+    α_mat = zeros(N, N)
 
-    for β in var_β
-        α = π / 2 - β  # lag parameter in the equations
-        α_mat = zeros(N, N)
+    # construct lag matrix
+    for i in 1:N
+        for j in i+1:N
 
-        # construct lag matrix
-        for i in 1:N
-            for j in i+1:N
-
-                # add lag if different module
-                if A[i,j] != 0 && partition[:, i] != partition[:, j]
-                    α_mat[i, j] = α
-                    α_mat[j, i] = α
-                    
-                end
+            # add lag if different module
+            if A[i,j] != 0 && partition[:, i] != partition[:, j]
+                α_mat[i, j] = α
+                α_mat[j, i] = α
+                
             end
         end
-
-        # oscillators parameters
-        ω = repeat([1], N)
-
-        # simulation parameters
-        Δt = 1e-3
-        if test
-            sim_time = 0.1
-        else
-            sim_time = 20 # seconds
-        end
-        steps = (0.0+Δt):Δt:sim_time
-        no_steps = length(steps)
-        if noiseQ
-            noise_scale = 0.1
-        else
-            noise_scale = 0
-        end
-
-        # storing parameters
-        save_ratio = 10
-        no_saves = round(Integer, no_steps / save_ratio)
-        store_θ = zeros(no_saves, N)
-        global θ_now = rand(Uniform(-π, π), N)
-
-        global save_counter = 1
-
-        for t in 1:no_steps
-            
-            # update phases
-            θj_θi_mat = (repeat(θ_now',N) - repeat(θ_now',N)') - α_mat
-            setindex!.(Ref(θj_θi_mat), 0.0, 1:N, 1:N) # set diagonal elements to zero 
-
-            k1 = map(sum, eachrow(A .* sin.(θj_θi_mat)))
-            global θ_now += Δt .* (ω + k1) # + noise_scale*(rand(Normal(0,1),N))*sqrt(Δt)
-            global save_counter += 1
-
-            # save θ
-            if save_counter % save_ratio == 0
-                store_θ[round(Integer, save_counter / save_ratio), :] = θ_now
-            end
-            
-        end
-
-        params = Dict(
-            "M" => M,
-            "C" => C,
-            "N" => N,
-            "α" => α,
-            "β" => β,
-            "K" => K,
-            "B" => B,
-            "A" => A,
-            "seedval" => seedval,
-            "Δt" => Δt,
-            "sim_time" => sim_time,
-            "μ" => μ,
-            "ν" => ν,
-            "noiseQ" => noiseQ,
-
-        )
-
-        results = [store_θ, params]
-
-        folderpath = "/mnt/lustre/scratch/inf/ec627/data/HierarchicalChimera/output/"
-
-        fileseed = "Seed" * string(seedval)
-        filebeta = "_beta_" * string(β)
-        fileB = "_B_" * string(B)
-        fileM = "_M_" * string(M)
-        fileC = "_C_" * string(C)
-
-        filename = folderpath * fileseed * filebeta * fileB * fileM * fileC
-
-        if test
-            println("end test: ", filename)
-        else
-            save_object(filename, results)
-        end
-
     end
 
+    # oscillators parameters
+    ω = repeat([1], N)
+
+    # simulation parameters
+    Δt = 1e-3
+    if test
+        sim_time = 0.1
+    else
+        sim_time = 15 # seconds
+    end
+    steps = (0.0+Δt):Δt:sim_time
+    no_steps = length(steps)
+    if noiseQ
+        noise_scale = 0.1
+    else
+        noise_scale = 0
+    end
+
+    # storing parameters
+    save_ratio = 10
+    no_saves = round(Integer, no_steps / save_ratio)
+    store_θ = zeros(no_saves, N)
+    global θ_now = rand(Uniform(-π, π), N)
+
+    global save_counter = 1
+
+    for t in 1:no_steps
+        
+        # update phases
+        θj_θi_mat = (repeat(θ_now',N) - repeat(θ_now',N)') - α_mat
+        setindex!.(Ref(θj_θi_mat), 0.0, 1:N, 1:N) # set diagonal elements to zero 
+
+        k1 = map(sum, eachrow(A .* sin.(θj_θi_mat)))
+        global θ_now += Δt .* (ω + k1) # + noise_scale*(rand(Normal(0,1),N))*sqrt(Δt)
+        global save_counter += 1
+
+        # save θ
+        if save_counter % save_ratio == 0
+            store_θ[round(Integer, save_counter / save_ratio), :] = θ_now
+        end
+        
+    end
+
+    params = Dict(
+        "M" => M,
+        "C" => C,
+        "N" => N,
+        "α" => α,
+        "β" => β,
+        "K" => K,
+        "B" => B,
+        "A" => A,
+        "seedval" => seedval,
+        "Δt" => Δt,
+        "sim_time" => sim_time,
+        "μ" => μ,
+        "ν" => ν,
+        "noiseQ" => noiseQ,
+
+    )
+
+    results = [store_θ, params]
+
+    folderpath = "/mnt/lustre/scratch/inf/ec627/data/HierarchicalChimera/four_states/"
+
+    fileseed = "Seed" * string(seedval)
+    filebeta = "_beta_" * string(β)
+    fileB = "_B_" * string(B)
+    fileM = "_M_" * string(M)
+    fileC = "_C_" * string(C)
+
+    filename = folderpath * fileseed * filebeta * fileB * fileM * fileC
+
+    if test
+        println("end test: ", filename)
+    else
+        save_object(filename, results)
+    end
 end

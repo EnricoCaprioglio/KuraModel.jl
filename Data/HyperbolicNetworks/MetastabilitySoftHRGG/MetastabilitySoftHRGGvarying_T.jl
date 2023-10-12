@@ -6,18 +6,16 @@ using LinearAlgebra
 using MCIntegration
 using Graphs
 
-seedval = 123
-Random.seed!(seedval)
-
 test = false
 
 # hyperbolic network parameters
 N = 256
-k = 8
+k = 8  # average degree
+
 if test
-    γ_tests = [2.1, 2.9]
+    γ_tests = [2.8]
 else
-    γ_tests = collect(2.01:0.02:2.99)
+    γ_tests = [2.8]
 end
 
 for γ in γ_tests
@@ -28,7 +26,12 @@ for γ in γ_tests
     else
         T = parse(Int, ARGS[1]) / 100
     end
+
     graphtype = :softHRGG
+    
+    seedval = 1
+    Random.seed!(seedval)
+
     if graphtype == :HRGG	
         HRGGnetwork = hyperbolic_graph(:HRGG, N, k, γ, 0.0; ζ = ζ, ϵ = ϵ, max_iter = max_iter)
     elseif graphtype == :softHRGG
@@ -121,7 +124,7 @@ for γ in γ_tests
     # svae all results
     results = [store_θ, params, A]
 
-    filepath = "/mnt/lustre/scratch/inf/ec627/data/HyperbolicNetworks/MetastabilitySoftHRGG_var_K/K_10/"
+    filepath = "/its/home/ec627/data/HyperbolicNetworks/FixedGamma_VarT_k_8_K_10/"
 
     fileseed = "Seed" * string(seedval)
 

@@ -19,9 +19,9 @@ function get_alpha(T::Number, γ::Number; ζ = 1, η = 1)
 		error("Gamma is smaller than 2")
 	end
 	
-	if T == 1
-		error("Temperture is exactly 1, critical point")
-	end
+	# if T == 1
+	# 	error("Temperture is exactly 1, critical point")
+	# end
 		
 	if T < 1
 		return ζ * (γ - 1) / 2
