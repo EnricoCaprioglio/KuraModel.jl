@@ -21,11 +21,11 @@ end
 Random.seed!(seedval)
 
 # adjacency matrix parameters
-B = 0.0
+B = 0.35
 ν = (1 - B) / 2
 μ = 1 - ν
-M = 32
-C = 64
+M = 64
+C = 32
 N = M * C * 2
 K = 1
 
@@ -48,8 +48,8 @@ for i in 1:N
 
         # connect if in the same module
         if partition[:, i] == partition[:, j]
-            A[i, j] = K * 2
-            A[j, i] = K * 2
+            A[i, j] = K
+            A[j, i] = K
 
         # connect with prob p_int if same population
         elseif partition[2, i] == partition[2, j] && rand() < p_int
@@ -146,7 +146,7 @@ params = Dict(
 
 results = [store_θ, params]
 
-folderpath = "/mnt/lustre/scratch/inf/ec627/data/HierarchicalChimera/four_states/"
+folderpath = "/mnt/lustre/scratch/inf/ec627/data/HierarchicalChimera/M64C32/"
 
 fileseed = "Seed" * string(seedval)
 filebeta = "_beta_" * string(β)
