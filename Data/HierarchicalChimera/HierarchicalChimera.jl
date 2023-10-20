@@ -4,7 +4,7 @@ using Random
 using JLD2
 using LinearAlgebra
 
-test = false
+test = true
 noiseQ = false
 if test
     job_ID = 3
@@ -29,7 +29,7 @@ C = 32
 N = M * C * 2
 K = 1
 
-p₀ = 0.9
+p₀ = 0.75
 p_int = μ / (K * M)
 p_ext = ν / (K * M)
 
@@ -154,11 +154,12 @@ filebeta = "_beta_" * string(β)
 fileB = "_B_" * string(B)
 fileM = "_M_" * string(M)
 fileC = "_C_" * string(C)
+filep0 = "_p0_" * string(p₀)
 
-filename = folderpath * fileseed * filebeta * fileB * fileM * fileC
+filename = folderpath * fileseed * filebeta * fileB * fileM * fileC * filep0
 
 if test
-    println("end test: ", filename)
+    println("end test: ", filename * ".jld2")
 else
-    save_object(filename, results)
+    save_object(filename * ".jld2", results)
 end
