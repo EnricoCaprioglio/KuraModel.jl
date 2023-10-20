@@ -29,6 +29,7 @@ C = 32
 N = M * C * 2
 K = 1
 
+p₀ = 0.9
 p_int = μ / (K * M)
 p_ext = ν / (K * M)
 
@@ -47,7 +48,7 @@ for i in 1:N
     for j in i+1:N
 
         # connect if in the same module
-        if partition[:, i] == partition[:, j]
+        if partition[:, i] == partition[:, j] && rand() < p₀
             A[i, j] = K
             A[j, i] = K
 
@@ -91,7 +92,7 @@ end
 if test
     sim_time = 0.1
 else
-    sim_time = 15 # seconds
+    sim_time = 30 # seconds
 end
 steps = (0.0+Δt):Δt:sim_time
 no_steps = length(steps)
@@ -141,12 +142,12 @@ params = Dict(
     "μ" => μ,
     "ν" => ν,
     "noiseQ" => noiseQ,
-
+    "p₀" => p₀
 )
 
 results = [store_θ, params]
 
-folderpath = "/mnt/lustre/scratch/inf/ec627/data/HierarchicalChimera/M64C32/"
+folderpath = "/mnt/lustre/scratch/inf/ec627/data/HierarchicalChimera/abstract_figs/"
 
 fileseed = "Seed" * string(seedval)
 filebeta = "_beta_" * string(β)
