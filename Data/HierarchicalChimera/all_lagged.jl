@@ -4,7 +4,11 @@ using Random
 using JLD2
 using LinearAlgebra
 
+<<<<<<< HEAD
+test = false
+=======
 test = true
+>>>>>>> 6b057b6717de14bf8eeaa16656318c87f3fc3aff
 noiseQ = false
 if test
     job_ID = 3
@@ -21,15 +25,26 @@ end
 Random.seed!(seedval)
 
 # adjacency matrix parameters
+<<<<<<< HEAD
+B = 0.5
+=======
 B = 0.35
+>>>>>>> 6b057b6717de14bf8eeaa16656318c87f3fc3aff
 ν = (1 - B) / 2
 μ = 1 - ν
 M = 64
 C = 32
 N = M * C * 2
+<<<<<<< HEAD
+K = 1
+p_lag = 0.5
+
+p₀ = 1
+=======
 K = 2
 
 p₀ = 0.75
+>>>>>>> 6b057b6717de14bf8eeaa16656318c87f3fc3aff
 p_int = μ / (K * M)
 p_ext = ν / (K * M)
 
@@ -70,7 +85,10 @@ end
 β = 0.1
 α = π / 2 - β  # lag parameter in the equations
 α_mat = zeros(N, N)
+<<<<<<< HEAD
+=======
 p_lag = 1
+>>>>>>> 6b057b6717de14bf8eeaa16656318c87f3fc3aff
 
 # construct lag matrix
 for i in 1:N
@@ -154,7 +172,11 @@ params = Dict(
 
 results = [store_θ, params]
 
+<<<<<<< HEAD
+folderpath = "/mnt/lustre/scratch/inf/ec627/data/HierarchicalChimera/all_laggedP05/"
+=======
 folderpath = "/mnt/lustre/scratch/inf/ec627/data/HierarchicalChimera/all_lagged/"
+>>>>>>> 6b057b6717de14bf8eeaa16656318c87f3fc3aff
 
 fileseed = "Seed" * string(seedval)
 filebeta = "_beta_" * string(β)
@@ -162,11 +184,21 @@ fileB = "_B_" * string(B)
 fileM = "_M_" * string(M)
 fileC = "_C_" * string(C)
 filep0 = "_p0_" * string(p₀)
+<<<<<<< HEAD
+fileplagged = "_plag_" * string(p_lag)
+
+filename = folderpath * fileseed * filebeta * fileB * fileM * fileC * filep0 * fileplagged 
+=======
 
 filename = folderpath * fileseed * filebeta * fileB * fileM * fileC * filep0
+>>>>>>> 6b057b6717de14bf8eeaa16656318c87f3fc3aff
 
 if test
     println("end test: ", filename * ".jld2")
 else
     save_object(filename * ".jld2", results)
+<<<<<<< HEAD
 end
+=======
+end
+>>>>>>> 6b057b6717de14bf8eeaa16656318c87f3fc3aff
