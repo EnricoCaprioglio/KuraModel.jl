@@ -4,7 +4,7 @@ using Random
 using JLD2
 using LinearAlgebra
 
-test = true
+test = false
 noiseQ = false
 if test
     job_ID = 3
@@ -21,7 +21,7 @@ end
 Random.seed!(seedval)
 
 # adjacency matrix parameters
-B = 0.35
+B = 0.4
 ν = (1 - B) / 2
 μ = 1 - ν
 M = 64
@@ -29,7 +29,7 @@ C = 32
 N = M * C * 2
 K = 1
 
-p₀ = 0.75
+p₀ = 1
 p_int = μ / (K * M)
 p_ext = ν / (K * M)
 
@@ -103,7 +103,7 @@ else
 end
 
 # storing parameters
-save_ratio = 10
+save_ratio = 1
 no_saves = round(Integer, no_steps / save_ratio)
 store_θ = zeros(no_saves, N)
 global θ_now = rand(Uniform(-π, π), N)
@@ -159,7 +159,7 @@ filep0 = "_p0_" * string(p₀)
 filename = folderpath * fileseed * filebeta * fileB * fileM * fileC * filep0
 
 if test
-    println("end test: ", filename * ".jld2")
+    println("end test: ", filename * "_new.jld2")
 else
-    save_object(filename * ".jld2", results)
+    save_object(filename * "_new.jld2", results)
 end
