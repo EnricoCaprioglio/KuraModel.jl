@@ -136,11 +136,11 @@ no_steps = length(steps)
 # storing parameters
 save_ratio = 1
 no_saves = round(Integer, no_steps / save_ratio)
-θ_now = rand(Uniform(-π, π), N)
+global θ_now = rand(Uniform(-π, π), N)
 θs = zeros(no_saves, N)
 θs[1, :] = θ_now
 
-save_counter = 1
+global save_counter = 1
 
 for t in 2:no_steps
     
