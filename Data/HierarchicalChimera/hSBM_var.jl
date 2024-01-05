@@ -149,8 +149,8 @@ for t in 2:no_steps
     setindex!.(Ref(θj_θi_mat), 0.0, 1:N, 1:N) # set diagonal elements to zero 
 
     k1 = map(sum, eachrow(A .* sin.(θj_θi_mat)))
-    θ_now += Δt .* (ω + k1) # + noise_scale*(rand(Normal(0,1),N))*sqrt(Δt)
-    save_counter += 1
+    global θ_now += Δt .* (ω + k1) # + noise_scale*(rand(Normal(0,1),N))*sqrt(Δt)
+    global save_counter += 1
 
     # save θ
     if save_counter % save_ratio == 0
