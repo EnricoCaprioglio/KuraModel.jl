@@ -23,6 +23,7 @@ export get_splits
 export fun_pattern
 export macro_to_micro
 export get_neighbours
+export Laplacian
 
 include("InformationTheory.jl")
 export shannon
@@ -49,5 +50,9 @@ export connect_nodes_softHRGG
 
 include("graphs/generators/GeometricGraphs.jl")
 export hyperbolic_graph
+
+include("HierarchicalChimera.jl")
+export SBMvar
+export _SBMvar_constructor
 
 end

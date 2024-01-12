@@ -3,6 +3,46 @@ using Distributions
 using Plots
 
 """
+	function Laplacian(A::AbstractMatrix; method = :graph)
+
+Function used to compute the Laplacian of the graph defined by the
+adjacency matrix `A`.
+
+If `method == :graph` --> compute the graph Laplacian;
+
+If `method == :normalized` --> compute the normalized graph Laplacian.
+
+"""
+function Laplacian(A::AbstractMatrix; method = :graph)
+
+	N = length(A[1, :])
+	
+	if method == :graph
+		
+		D = diagm([sum(A[i, :]) for i in 1:N])
+		
+		return D - A
+		
+	elseif method == :normalized
+
+		𝐼 = diagm(ones(N))
+		k = [sum(A[i, :]) for i in 1:N]
+		A′ = zeros(N, N)
+		
+		for i in 1:N
+			for j in 1:N
+				if A[i,j] != 0
+					A′[i,j] = A[i,j] / √(k[i]*k[j])
+				end
+			end
+		end
+
+		return 𝐼 - A′
+	end
+	
+end
+
+"""
     function get_splits(Nc)
 This function is used in many other functions, such as ω_macro or θs_macro.
 Given an Array containing the number of nodes in each community, such that
