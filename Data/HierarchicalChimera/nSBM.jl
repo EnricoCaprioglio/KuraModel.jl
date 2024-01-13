@@ -121,7 +121,8 @@ params = Dict(
     "Δt" => Δt,
     "sim_time" => sim_time,
     "H" => H,
-    "P" => P
+    "P" => P,
+    "k" => k
 )
 
 # save results
@@ -130,8 +131,9 @@ results = [θs, params]
 fileseed = "seed_" * string(seedval)
 filebeta = "_beta_" * string(β)
 fileH = "_H_" * string(H)
+filek = "_k_" * string(k)[1:4]
 
-filename = folderpath * fileseed * filebeta * fileH
+filename = folderpath * fileseed * filebeta * fileH * filek
 
 if test
     println("end test: ", filename * ".jld2")
