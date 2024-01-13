@@ -51,7 +51,7 @@ export connect_nodes_softHRGG
 include("graphs/generators/GeometricGraphs.jl")
 export hyperbolic_graph
 
-include("HierarchicalChimera.jl")
+include("graphs/generators/HierarchicalChimera.jl")
 export SBMvar
 export _SBMvar_constructor
 
