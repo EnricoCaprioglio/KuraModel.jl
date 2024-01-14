@@ -5,7 +5,7 @@ using JLD2
 using LinearAlgebra
 
 # set relevant paths
-folderpath = "/mnt/lustre/scratch/inf/ec627/data/HierarchicalChimera/paper_data/raw_data"
+folderpath = "/mnt/lustre/scratch/inf/ec627/data/HierarchicalChimera/paper_data/raw_data/"
 cd(folderpath)
 filenames = readdir()[1:end]
 
@@ -22,6 +22,11 @@ filenames = readdir()[1:end]
 # 1234567890123456789012345678901234
 # seed_3_beta_0.05_H_0.88_k_85.3.jld2
 # 12345678901234567890123456789012345
+
+# possible values
+# H ∈ [0.00:0.01:1.00]
+# k ∈ (51.2, 85.3)
+# β ∈ (0.05)
 
 # select params of interest
 seed_range = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -53,7 +58,7 @@ for filename in filenames
 
             # load data
             θs, params = load_object(folderpath * filename)
-            B = params["B"]; n = params["n"]; N = prod(N)
+            B = params["B"]; n = params["n"]; N = prod(n)
             relax = round(Integer, (1 / params["Δt"]) * 5)
 
             # layer 2 analysis (populations)
