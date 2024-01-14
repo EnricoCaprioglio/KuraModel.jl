@@ -45,7 +45,7 @@ for filename in filenames
 
         # Extract values from the matched groups
         seed = parse(Int, match_result[1])
-        beta = parse(Float64, match_result[2])
+        β = parse(Float64, match_result[2])
         H = parse(Float64, match_result[3])
         k = parse(Float64, match_result[4])
 
@@ -102,4 +102,4 @@ results = Dict(
 
 savefilename = "_beta_" * string(β_range) * "_H_" * string(H_range) * "_k_" * string(k_range) * ".jld2"
 
-save_object(savefolder_path * savefilename)
+save_object(savefolder_path * savefilename, results)
