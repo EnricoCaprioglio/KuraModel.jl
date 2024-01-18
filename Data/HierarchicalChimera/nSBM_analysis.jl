@@ -116,3 +116,5 @@ results = Dict(
 savefilename = "_beta_" * string(β_range) * "_k_" * string(k_range) * ".jld2"
 
 save_object(savefolder_path * savefilename, results)
+
+println("Results saved at: $(savefolder_path * savefilename)")
