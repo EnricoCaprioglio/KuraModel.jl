@@ -30,7 +30,7 @@ filenames = readdir()[1:end]
 
 # select params of interest
 seed_range = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-β_range = 0.05; H_range = 0.45; k_range = 51.2
+β_range = 0.05; H_range = 0.45; k_range = 85.3
 
 # Define a regular expression pattern to match the numbers
 pattern = r"seed_(\d+)_beta_([\d.]+)_H_([\d.]+)_k_([\d.]+)\.jld2"
@@ -40,6 +40,7 @@ means_pop_1 = []; means_pop_2 = []
 stds_pop_1 = []; stds_pop_2 = []
 means_modules_pop_1 = []; means_modules_pop_2 = []
 var_modules_pop_1 = []; var_modules_pop_2 = []
+Hs = []
 
 for filename in filenames
     # Match the pattern in the filename
@@ -54,7 +55,11 @@ for filename in filenames
         H = parse(Float64, match_result[3])
         k = parse(Float64, match_result[4])
 
-        if seed in seed_range && β == β_range && H == H_range && k == k_range
+        if seed in seed_range && β == β_range && k == k_range
+            # && H == H_range
+
+            # add to list of H studies
+            append!(Hs, H)
 
             # load data
             θs, params = load_object(folderpath * filename)
@@ -62,26 +67,28 @@ for filename in filenames
             relax = round(Integer, (1 / params["Δt"]) * 5)
 
             # layer 2 analysis (populations)
-            append!(means_pop_1, mean(macro_op(θs[relax+1:end, 1:round(Integer, N/2)])))
-            append!(means_pop_2, mean(macro_op(θs[relax+1:end, round(Integer, N/2)+1:end])))
-            append!(stds_pop_1, std(macro_op(θs[relax+1:end, 1:round(Integer, N/2)])))
-            append!(stds_pop_2, std(macro_op(θs[relax+1:end, round(Integer, N/2)+1:end])))
+            pop_1_end = round(Integer, N/2)
+            append!(means_pop_1, mean(macro_op(θs[relax+1:end, 1:pop_1_end])))
+            append!(means_pop_2, mean(macro_op(θs[relax+1:end, pop_1_end+1:end])))
+            append!(stds_pop_1, std(macro_op(θs[relax+1:end, 1:pop_1_end])))
+            append!(stds_pop_2, std(macro_op(θs[relax+1:end, pop_1_end+1:end])))
 
             # layer 1 analysis (modules)
-            modules_KOP = zeros(B[1])
-            modules_KOP_std = zeros(B[1])
-            modules_macro_op = zeros(length(θs[relax:end, 1]), B[1])
+            modules_KOP_means = zeros(B[1]) # store mean KOP each module
+            modules_KOP_std = zeros(B[1]) # store var KOP each module
 
-            for i in 1:B[1]
-                modules_macro_op[:, i] = macro_op(θs[relax:end, n[1]*(i-1)+1:n[1]*i])
-                modules_KOP[i] = mean(modules_macro_op[:, i])
-                modules_KOP_std[i] = std(modules_macro_op[:, i])
+            for i in 1:B[1] # this loops through each module (regardless of population)
+                modules_macro_op = macro_op(θs[relax+1:end, n[1]*(i-1)+1:n[1]*i])
+                modules_KOP_means[i] = mean(modules_macro_op)
+                modules_KOP_std[i] = std(modules_macro_op)
             end
 
-            append!(means_modules_pop_1, mean(modules_KOP[1:Integer(B[1]/2)]))
-            append!(means_modules_pop_2, mean(modules_KOP[Integer(B[1]/2)+1:end]))
-            append!(var_modules_pop_1, mean(modules_KOP_std[1:Integer(B[1]/2)])^2)
-            append!(var_modules_pop_2, mean(modules_KOP_std[Integer(B[1]/2)+1:end])^2)
+            modules_pop_1_end = Integer(B[1]/2)
+            # get average of all modules in a single population
+            append!(means_modules_pop_1, mean(modules_KOP_means[1:modules_pop_1_end]))
+            append!(means_modules_pop_2, mean(modules_KOP_means[modules_pop_1_end+1:end]))
+            append!(var_modules_pop_1, mean(modules_KOP_std[1:modules_pop_1_end])^2)
+            append!(var_modules_pop_2, mean(modules_KOP_std[modules_pop_1_end+1:end])^2)
         end
 
         # Print or store the extracted values
@@ -102,9 +109,10 @@ results = Dict(
     "means_modules_pop_1" => means_modules_pop_1,
     "means_modules_pop_2" => means_modules_pop_2,
     "var_modules_pop_1" => var_modules_pop_1,
-    "var_modules_pop_2" => var_modules_pop_2
+    "var_modules_pop_2" => var_modules_pop_2,
+    "H" => Hs
 )
 
-savefilename = "_beta_" * string(β_range) * "_H_" * string(H_range) * "_k_" * string(k_range) * ".jld2"
+savefilename = "_beta_" * string(β_range) * "_k_" * string(k_range) * ".jld2"
 
 save_object(savefolder_path * savefilename, results)
