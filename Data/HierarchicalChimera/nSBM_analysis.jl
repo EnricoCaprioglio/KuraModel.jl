@@ -117,7 +117,9 @@ results = Dict(
     "means_modules_pop_2" => means_modules_pop_2,
     "var_modules_pop_1" => var_modules_pop_1,
     "var_modules_pop_2" => var_modules_pop_2,
-    "H" => Hs
+    "H" => Hs,
+    "mean_whole_KOP" => mean_whole_KOP,
+    "std_whole_KOP" => std_whole_KOP
 )
 
 savefilename = "_beta_" * string(β_range) * "_k_" * string(k_range) * ".jld2"
