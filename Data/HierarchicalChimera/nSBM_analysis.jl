@@ -38,6 +38,7 @@ pattern = r"seed_(\d+)_beta_([\d.]+)_H_([\d.]+)_k_([\d.]+)\.jld2"
 
 # store data (each entry corresponds to a value of H, I added this since files are not ordered)
 no_data = length(H_range)
+mean_whole_KOP = zeros(no_data); std_whole_KOP = zeros(no_data)
 means_pop_1 = zeros(no_data); means_pop_2 = zeros(no_data)
 stds_pop_1 = zeros(no_data); stds_pop_2 = zeros(no_data)
 means_modules_pop_1 = zeros(no_data); means_modules_pop_2 = zeros(no_data)
@@ -91,6 +92,10 @@ for filename in filenames
             means_modules_pop_2[id] = mean(modules_KOP_means[modules_pop_1_end+1:end])
             var_modules_pop_1[id] = mean(modules_KOP_std[1:modules_pop_1_end])^2
             var_modules_pop_2[id] = mean(modules_KOP_std[modules_pop_1_end+1:end])^2
+
+            # layer 0 analysis (whole network)
+            mean_whole_KOP[id] = mean(macro_op(θs[relax+1:end, :]))
+            std_whole_KOP[id] = std(macro_op(θs[relax+1:end, :]))
         end
 
         # Print or store the extracted values
