@@ -122,7 +122,7 @@ results = Dict(
     "std_whole_KOP" => std_whole_KOP
 )
 
-savefilename = "_beta_" * string(β_range) * "_k_" * string(k_range) * ".jld2"
+savefilename = "_beta_" * string(β_range) * "_k_" * string(k_range) * "_seed_" * string(seed_range) * "_.jld2"
 
 save_object(savefolder_path * savefilename, results)
 
