@@ -28,7 +28,7 @@ echo "Running job script"
 
 module load Julia
 
-julia /its/home/ec627/src/Kuramodel/Data/HierarchicalChimera/paper/EmergenceOfMetastability/DataCollect.jl $SGE_TASK_ID
+julia /its/home/ec627/src/Kuramodel/Data/paper/EmergenceOfMetastability/DataCollect.jl $SGE_TASK_ID
 
 echo "Finished job script"
 
