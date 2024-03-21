@@ -132,104 +132,52 @@ function phase_space(folderpath, k_desired, no_seeds, H_range, n₂; test = fals
 		end
 	end
 
-	## Plots
-	# whole system
-	whole_KOP_plot = plot(
-		H_range, mean(whole_mean_store, dims = 1)[1, :],
-		ribbon = std(whole_mean_store, dims = 1)[1, :],
-		title = "whole system",
-		label = ""
-		)
-	whole_KOP_std_plot = plot(
-		H_range, mean(whole_std_store, dims = 1)[1, :],
-		ribbon = std(whole_std_store, dims = 1)[1, :],
-		title = "whole system",
-		label = ""
-		)
-
-	# populations
-	pop_KOP_plot = plot(
-		H_range, mean(stable_mean, dims = 1)[1, :],
-		ribbon = std(stable_mean, dims = 1)[1, :],
-		label = "stable",
-		title = "Populations mean KOP"
-	)
-	plot!(
-		H_range, mean(unstable_mean, dims = 1)[1, :],
-		ribbon = std(unstable_mean, dims = 1)[1, :],
-		label = "unstable"
-	)
-	pop_KOP_std_plot = plot(
-		H_range, mean(stable_std, dims = 1)[1, :],
-		ribbon = std(stable_std, dims = 1)[1, :],
-		label = "stable",
-		title = "Populations KOP std"
-	)
-	plot!(
-		H_range, mean(unstable_std, dims = 1)[1, :],
-		ribbon = std(unstable_std, dims = 1)[1, :],
-		label = "unstable"
-	)
 	# population metastability index
 	pop_metastability = zeros(length(stable_std[:, 1])*2, length(stable_std[1, :]))
 	pop_metastability[1:length(stable_std[:, 1]), :] = stable_std
 	pop_metastability[length(stable_std[:, 1])+1:end, :] = unstable_std
-	
-	pop_metastability_plot = plot(
-		H_range, mean(pop_metastability, dims = 1)[1, :],
-		ribbon = std(pop_metastability, dims = 1)[1, :],
-		label = "",
-		title = "Populations metastability index"
-	)
 
-	# modules plot
-	modules_mean_plot = plot(
-		H_range, mean(stable_modules_mean, dims = 1)[1, :],
-		ribbon = std(stable_modules_mean, dims = 1)[1, :],
-		label = "stable",
-		title = "Modules KOP"
-	)
-	plot!(
-		H_range, mean(unstable_modules_mean, dims = 1)[1, :],
-		ribbon = std(unstable_modules_mean, dims = 1)[1, :],
-		label = "stable"
-	)
-	modules_metastability_plot = plot(
-		H_range, mean(stable_modules_metastability .^2, dims = 1)[1, :],
-		ribbon = std(stable_modules_metastability .^2, dims = 1)[1, :],
-		label = "stable",
-		title = "Modules metastability"
-	)
-	plot!(
-		H_range, mean(unstable_modules_metastability .^2, dims = 1)[1, :],
-		ribbon = std(unstable_modules_metastability .^2, dims = 1)[1, :],
-		label = "unstable"
-	)
+    # modules metatsability index
+    modules_metastability = zeros(length(stable_modules_metastability[:, 1])*2, length(stable_modules_metastability[1, :]))
+	modules_metastability[1:length(stable_std[:, 1]), :] = stable_modules_metastability
+	modules_metastability[length(stable_std[:, 1])+1:end, :] = unstable_modules_metastability
+    
 
-	plt_final = plot(
-		[
-			whole_KOP_plot,
-			whole_KOP_std_plot,
-			pop_KOP_plot,
-			pop_KOP_std_plot,
-			pop_metastability_plot,
-			modules_mean_plot,
-			modules_metastability_plot
-		]...,
-		layout = (7,1),
-		size = (900, 1200),
-	)
+    data_to_plot = Dict(
+        "mean_whole_mean_store" => mean(whole_mean_store, dims = 1)[1, :],
+        "std_whole_mean_store" => std(whole_mean_store, dims = 1)[1, :],
+        "mean_stable_mean" => mean(stable_mean, dims = 1)[1, :],
+        "std_stable_mean" => mean(stable_mean, dims = 1)[1, :],
+        "mean_unstable_mean" => mean(unstable_mean, dims = 1)[1, :],
+        "std_unstable_mean" => std(unstable_mean, dims = 1)[1, :],
+        "mean_stable_std" => mean(stable_std, dims = 1)[1, :],
+        "std_stable_std" => std(stable_std, dims = 1)[1, :],
+        "mean_unstable_std" => mean(unstable_std, dims = 1)[1, :],
+        "std_unstable_std" => std(unstable_std, dims = 1)[1, :],
+        "mean_pop_metastability" => mean(pop_metastability, dims = 1)[1, :],
+        "std_pop_metastability" => std(pop_metastability, dims = 1)[1, :],
+        "mean_stable_modules_mean" => mean(stable_modules_mean, dims = 1)[1, :],
+        "std_stable_modules_mean" => std(stable_modules_mean, dims = 1)[1, :],
+        "mean_unstable_modules_mean" => mean(unstable_modules_mean, dims = 1)[1, :],
+        "std_unstable_modules_mean" => std(unstable_modules_mean, dims = 1)[1, :],
+        "mean_stable_modules_metastability" => mean(stable_modules_metastability .^2, dims = 1)[1, :],
+        "std_stable_modules_metastability" => std(stable_modules_metastability .^2, dims = 1)[1, :],
+        "mean_unstable_modules_metastability" => mean(unstable_modules_metastability .^2, dims = 1)[1, :],
+        "std_unstable_modules_metastability" => std(unstable_modules_metastability .^2, dims = 1)[1, :],
+        "whole_modules_mean_metastability" => mean(modules_metastability .^2, dims = 1)[1, :],
+        "whole_modules_std_metastability" => std(modules_metastability .^2, dims = 1)[1, :],
+    )
 
-	return plt_final
+	return data_to_plot
 end
 
-plt_final = phase_space(folderpath, k_desired, no_seeds, H_range, n₂; test = test)
+data_to_plot = phase_space(folderpath, k_desired, no_seeds, H_range, n₂; test = test)
 
 filename = "_no_seeds_" * string(no_seeds) * "_k_" * string(k_desired) * ".png"
 if test
-    savefig(plt_final, "/mnt/lustre/scratch/inf/ec627/data/HierarchicalChimera/paper_data/DataCollect/n1608fast/k_42_plots/TEST" * filename)
+    save_object(data_to_plot, "/mnt/lustre/scratch/inf/ec627/data/HierarchicalChimera/paper_data/DataCollect/n1608fast/k_42_plots/TEST" * filename)
     println("File saved correctly: $(filename)")
 else
-    savefig(plt_final, "/mnt/lustre/scratch/inf/ec627/data/HierarchicalChimera/paper_data/DataCollect/n1608fast/k_42_plots/" * filename)
+    save_object(data_to_plot, "/mnt/lustre/scratch/inf/ec627/data/HierarchicalChimera/paper_data/DataCollect/n1608fast/k_42_plots/" * filename)
     println("File saved correctly: $(filename)")
 end
