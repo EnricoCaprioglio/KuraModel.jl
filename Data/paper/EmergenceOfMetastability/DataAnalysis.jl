@@ -53,7 +53,7 @@ function phase_space(folderpath, k_desired, no_seeds, H_range, n₂; test = fals
 
 			if k == k_desired
 				
-				KOP_whole_mean, KOP_whole_std, KOP_pop_1_mean, KOP_pop_1_std, KOP_pop_2_mean, KOP_pop_2_std, KOP_modules, params = load_object(filename)
+				KOP_whole_mean, KOP_whole_std, KOP_pop_1_mean, KOP_pop_1_std, KOP_pop_2_mean, KOP_pop_2_std, KOP_modules, params = load_object(folderpath * filename)
 
 				# compute the mean KOP between modules in pop 1 or 2
 				pop1_modules_mean_KOP = mean(mean.([KOP_modules[:, i] for i in 1:n₂]))
@@ -175,9 +175,9 @@ data_to_plot = phase_space(folderpath, k_desired, no_seeds, H_range, n₂; test 
 
 filename = "_no_seeds_" * string(no_seeds) * "_k_" * string(k_desired) * ".png"
 if test
-    save_object(data_to_plot, "/mnt/lustre/scratch/inf/ec627/data/HierarchicalChimera/paper_data/DataCollect/n1608fast/k_42_plots/TEST" * filename)
+    save_object("/mnt/lustre/scratch/inf/ec627/data/HierarchicalChimera/paper_data/DataCollect/n1608fast/k_42_plots/TEST" * filename, data_to_plot)
     println("File saved correctly: $(filename)")
 else
-    save_object(data_to_plot, "/mnt/lustre/scratch/inf/ec627/data/HierarchicalChimera/paper_data/DataCollect/n1608fast/k_42_plots/" * filename)
+    save_object("/mnt/lustre/scratch/inf/ec627/data/HierarchicalChimera/paper_data/DataCollect/n1608fast/k_42_plots/" * filename, data_to_plot)
     println("File saved correctly: $(filename)")
 end
