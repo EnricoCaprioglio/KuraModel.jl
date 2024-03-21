@@ -190,7 +190,7 @@ Random.seed!(seedval)
 
 if test
     k_range = 45
-    H = 0.4
+    H_range = 0.4
 else    
     k_range = 20:2:100
     H_range = 0.0:0.025:1
