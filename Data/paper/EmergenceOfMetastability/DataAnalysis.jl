@@ -128,8 +128,8 @@ modules_metastability[length(stable_std[:, 1])+1:end, :] = unstable_modules_meta
 data_to_plot = Dict(
     "mean_whole_mean_store" => mean(whole_mean_store, dims = 1)[1, :],
     "std_whole_mean_store" => std(whole_mean_store, dims = 1)[1, :],
-    "mean_whole_mean_store" => mean(whole_std_store, dims = 1)[1, :],
-    "std_whole_mean_store" => std(whole_std_store, dims = 1)[1, :],
+    "mean_whole_std_store" => mean(whole_std_store, dims = 1)[1, :],
+    "std_whole_std_store" => std(whole_std_store, dims = 1)[1, :],
     "mean_stable_mean" => mean(stable_mean, dims = 1)[1, :],
     "std_stable_mean" => std(stable_mean, dims = 1)[1, :],
     "mean_unstable_mean" => mean(unstable_mean, dims = 1)[1, :],
