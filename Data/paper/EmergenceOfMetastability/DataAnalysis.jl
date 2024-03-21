@@ -7,7 +7,7 @@ using LinearAlgebra
 # change the path and filename if k_desired is changed #
 ########################################################
 
-folderpath = "/mnt/lustre/scratch/inf/ec627/data/HierarchicalChimera/paper_data/DataCollect/n1608fast/k_42"
+folderpath = "/mnt/lustre/scratch/inf/ec627/data/HierarchicalChimera/paper_data/DataCollect/n1608fast/k_42/"
 k_desired = 42 # 51, 42, 64
 no_seeds = 100
 H_range = collect(0.00:0.01:1)
@@ -56,6 +56,8 @@ for filename in filenames
         
     KOP_whole_mean, KOP_whole_std, KOP_pop_1_mean, KOP_pop_1_std, KOP_pop_2_mean, KOP_pop_2_std, KOP_modules, params = load_object(folderpath * filename)
 
+    H = params["H"]
+    
     # compute the mean KOP between modules in pop 1 or 2
     pop1_modules_mean_KOP = mean(mean.([KOP_modules[:, i] for i in 1:n₂]))
     pop1_metastability = mean(std.([KOP_modules[:, i] for i in 1:n₂]))
