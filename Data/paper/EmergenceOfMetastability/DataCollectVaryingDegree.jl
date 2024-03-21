@@ -262,16 +262,14 @@ for k in k_range
     fileseed = "seed_" * string(seedval)
     filebeta = "_beta_" * string(β)
     fileH = "_H_" * string(H)
+    filek = "_k_" * string(k)
 
-    filename = folderpath * fileseed * filebeta * fileH # * filek
+    filename = folderpath * fileseed * filebeta * fileH * filek
 
     if test
         println("end test: ", filename * ".jld2")
-        # save_object(filename * "_TEST.jld2", results)
+        save_object(filename * "_TEST.jld2", results)
         println("File saved correctly: $(filename)")
-        println(results[7])
-        println(results[8])
-        # println(results[9])
     else
         save_object(filename * ".jld2", results)
         println("File saved correctly: $(filename)")
