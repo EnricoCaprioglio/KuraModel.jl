@@ -173,7 +173,7 @@ end
 
 data_to_plot = phase_space(folderpath, k_desired, no_seeds, H_range, n₂; test = test)
 
-filename = "_no_seeds_" * string(no_seeds) * "_k_" * string(k_desired) * ".png"
+filename = "_no_seeds_" * string(no_seeds) * "_k_" * string(k_desired) * ".jld2"
 if test
     save_object("/mnt/lustre/scratch/inf/ec627/data/HierarchicalChimera/paper_data/DataCollect/n1608fast/k_42_plots/TEST" * filename, data_to_plot)
     println("File saved correctly: $(filename)")
