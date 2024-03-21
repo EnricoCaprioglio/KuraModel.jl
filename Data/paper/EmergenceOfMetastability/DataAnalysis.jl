@@ -7,13 +7,12 @@ using LinearAlgebra
 # change the path and filename if k_desired is changed #
 ########################################################
 
-folderpath = "/mnt/lustre/scratch/inf/ec627/data/HierarchicalChimera/paper_data/DataCollect/n1608fast/k_42/"
-k_desired = 42 # 51, 42, 64
+folderpath = "/mnt/lustre/scratch/inf/ec627/data/HierarchicalChimera/paper_data/DataCollect/n1608fast/k_51/"
+k_desired = 51 # 51, 42, 64
 no_seeds = 100
 H_range = collect(0.00:0.01:1)
 n₂ = 8
 test = false
-
 	
 cd(folderpath)
 if test
@@ -21,9 +20,6 @@ if test
 else
     filenames = readdir()[1:end]
 end
-
-# Define a regular expression pattern to match the numbers
-# pattern = r"seed_(\d+)_beta_([\d.]+)_H_([\d.]+)_k_([\d.]+)\.jld2"
 
 whole_mean_store = zeros(no_seeds, lastindex(H_range))
 whole_std_store = zeros(no_seeds, lastindex(H_range))
@@ -39,20 +35,6 @@ metastability_pop_2_store = zeros(no_seeds, lastindex(H_range))
 println(length(filenames))
 
 for filename in filenames
-
-# # Match the pattern in the filename
-# match_result = match(pattern, filename)
-
-# # Extract values if there is a match
-# if match_result !== nothing
-
-#     # Extract values from the matched groups
-#     seed = parse(Int, match_result[1])
-#     β = parse(Float64, match_result[2])
-#     H = parse(Float64, match_result[3])
-#     k = parse(Float64, match_result[4])
-
-#     if k == k_desired
         
     KOP_whole_mean, KOP_whole_std, KOP_pop_1_mean, KOP_pop_1_std, KOP_pop_2_mean, KOP_pop_2_std, KOP_modules, params = load_object(folderpath * filename)
 
@@ -171,9 +153,9 @@ data_to_plot = Dict(
 
 filename = "_no_seeds_" * string(no_seeds) * "_k_" * string(k_desired) * ".jld2"
 if test
-    save_object("/mnt/lustre/scratch/inf/ec627/data/HierarchicalChimera/paper_data/DataCollect/n1608fast/k_42_plots/TEST" * filename, data_to_plot)
+    save_object("/mnt/lustre/scratch/inf/ec627/data/HierarchicalChimera/paper_data/DataCollect/n1608fast/k_51_plots/TEST" * filename, data_to_plot)
     println("File saved correctly: $(filename)")
 else
-    save_object("/mnt/lustre/scratch/inf/ec627/data/HierarchicalChimera/paper_data/DataCollect/n1608fast/k_42_plots/" * filename, data_to_plot)
+    save_object("/mnt/lustre/scratch/inf/ec627/data/HierarchicalChimera/paper_data/DataCollect/n1608fast/k_51_plots/" * filename, data_to_plot)
     println("File saved correctly: $(filename)")
 end
